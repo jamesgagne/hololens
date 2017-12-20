@@ -27,7 +27,7 @@
 				<!-- Navbar LEFT -->
 				<div class="navbar-header navbar-left pull-left">
 					<a href="<?= base_url(); ?>">
-						<img class="navbar-brand" src="<?= assetUrl(); ?>img/no_image.png" />
+						<img class="navbar-brand" src="<?= assetUrl(); ?>img/icon-3.png" />
 						<span class="navbar-brand">SoftwareEngineering</span>
 					</a>
 				</div>
@@ -161,6 +161,7 @@
 					<!-- Navbar LEFT Links -->
 					<ul class="nav navbar-nav navbar-left">
 						<li><a href="<?= base_url(); ?>">Catalog</a></li>
+						<li><a href="<?= base_url() . "index.php/Upload"; ?>">Upload</a></li>
 					</ul>
 				</div>
 			</div>
