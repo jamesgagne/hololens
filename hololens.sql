@@ -32,6 +32,14 @@ CREATE TABLE `hl_categories` (
   `name` varchar(50) NOT NULL,
   `short_name` varchar(10) NOT NULL
 );
+INSERT INTO `hl_categories` (
+`category_id` ,
+`name` ,
+`short_name`
+)
+VALUES (
+1 ,  'Test',  'test'
+);
 
 -- --------------------------------------------------------
 
@@ -59,7 +67,13 @@ CREATE TABLE `hl_colors` (
   `color_id` int(10) NOT NULL,
   `name` varchar(50) NOT NULL
 );
-
+INSERT INTO `hl_colors` (
+`color_id` ,
+`name` 
+)
+VALUES (
+1 ,  'Blue'
+);
 -- --------------------------------------------------------
 
 --

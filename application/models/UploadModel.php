@@ -8,7 +8,8 @@ class UploadModel extends CI_Model{
                'description' => $description,
                'location' => $location,
                'size' => $size,
-               'category_id' => $category_id
+               'category_id' => 1,
+		'color_id'=>1
             );
 		$q = $this->db->insert('hl_files', $data); 
 
