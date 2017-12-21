@@ -67,7 +67,7 @@ class Upload extends CI_Controller {
         $destination  = hardImgUrl(). $_FILES['fbx']['name'];
 
         move_uploaded_file($src,$destination);
-		$savePath = assetUrl() . "models";
+		$savePath = assetUrl() . "models/".$_FILES['fbx']['name'];
       $name = $_FILES['fbx']['name'];
       $description = "";
       $size = "";
