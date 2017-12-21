@@ -27,7 +27,7 @@
 			$this->TPL["Categories"] = $this->GetCategories();
 			$this->TPL["Colors"] = $this->GetColors();
 			
-			$this->template->show('home', $this->TPL);
+			$this->template->show('catalog', $this->TPL);
 		}
 		
 		// get all categories in table

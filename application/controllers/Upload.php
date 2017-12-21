@@ -67,11 +67,12 @@ class Upload extends CI_Controller {
         $destination  = hardImgUrl(). $_FILES['fbx']['name'];
 
         move_uploaded_file($src,$destination);
+		$savePath = assetUrl() . "models";
       $name = $_FILES['fbx']['name'];
       $description = "";
       $size = "";
       $category_id = 0;
-        $this->UploadModel->insertFile($name, $description, $destination,$size,$category_id); 	
+        $this->UploadModel->insertFile($name, $description, $savePath,$size,$category_id); 	
         $this->TPL['uploadsuccess'] = true;
         $this->template->show('upload', $this->TPL);			
   			}

@@ -191,7 +191,7 @@ $config['controller_trigger'] = 'c';
 $config['function_trigger'] = 'm';
 $config['directory_trigger'] = 'd';
 $config['assetsPath'] = "application/assets/";
-$config['imgPath'] = "/home/student/000328298/public_html/private/hololens/application/assets/img/";
+$config['imgPath'] = "/home/student/000328298/public_html/private/hololens/application/assets/models/";
 
 /*
 |--------------------------------------------------------------------------

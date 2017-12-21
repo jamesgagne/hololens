@@ -1,4 +1,4 @@
-  
+ <div class="row" 
   <div class="col-lg-10">     
  <br />
     <h2>Upload Files</h2>
@@ -16,6 +16,7 @@
 <?= form_close() ?>
     </div>
   </div>
+  
 
 <script type="text/javascript">
   $(document).ready(function(){
