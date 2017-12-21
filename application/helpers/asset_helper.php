@@ -13,6 +13,16 @@ if (!function_exists('assetUrl'))
         // return the asset_url 
         //I've added the config item assetsPath 
         // in a custom config file which is autoloaded 
-        return base_url() . $CI->config->item('assetsPath');
+        return base_url() . "application/assets/";
     }
+
+}
+if (!function_exists('hardImgUrl')){
+     
+     function hardImgUrl()
+     {
+        $CI =& get_instance();
+        return $CI->config->item('imgPath');; 
+
+     }
 }

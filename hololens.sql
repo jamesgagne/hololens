@@ -14,7 +14,7 @@
 --
 -- Table structure for table `access_levels`
 --
-
+DROP TABLE IF EXISTS `hl_access_levels`;
 CREATE TABLE `hl_access_levels` (
   `access_level_id` int(10) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -26,11 +26,11 @@ CREATE TABLE `hl_access_levels` (
 --
 -- Table structure for table `categories`
 --
-
+DROP TABLE IF EXISTS `hl_categories`;
 CREATE TABLE `hl_categories` (
   `category_id` int(10) NOT NULL,
   `name` varchar(50) NOT NULL,
-  `short_name` int(10) NOT NULL
+  `short_name` varchar(10) NOT NULL
 );
 
 -- --------------------------------------------------------
@@ -38,14 +38,14 @@ CREATE TABLE `hl_categories` (
 --
 -- Table structure for table `files`
 --
-
+DROP TABLE IF EXISTS `hl_files`;
 CREATE TABLE `hl_files` (
   `file_id` int(10) NOT NULL,
   `name` varchar(20) NOT NULL,
-  `description` varchar(255) NOT NULL,
+  `description` varchar(255),
   `location` varchar(255) NOT NULL,
-  `size` varchar(20) NOT NULL,
-  `category_id` int(10) NOT NULL
+  `size` varchar(20),
+  `category_id` int(10) 
 );
 
 -- --------------------------------------------------------
@@ -53,7 +53,7 @@ CREATE TABLE `hl_files` (
 --
 -- Table structure for table `spaces`
 --
-
+DROP TABLE IF EXISTS `hl_spaces`;
 CREATE TABLE `hl_spaces` (
   `space_id` int(10) NOT NULL,
   `name` varchar(50) NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE `hl_spaces` (
 --
 -- Table structure for table `space_file_lines`
 --
-
+DROP TABLE IF EXISTS `hl_space_file_lines`;
 CREATE TABLE `hl_space_file_lines` (
   `space_file_id` int(10) NOT NULL,
   `space_id` int(10) NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE `hl_space_file_lines` (
 --
 -- Table structure for table `users`
 --
-
+DROP TABLE IF EXISTS `hl_users`;
 CREATE TABLE `hl_users` (
   `user_id` int(10) NOT NULL,
   `name` varchar(255) NOT NULL,
