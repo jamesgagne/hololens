@@ -24,58 +24,56 @@ class Upload extends CI_Controller {
 	public function newFile(){
     $this->load->helper(array('form', 'url'));
     $this->load->library('form_validation');
-    
-    
 
+      	/*$validation = array(
+             
+              array(
+                      'field' => 'fbx',
+                      'label' => 'fbx',
+                      'rules' => array(array('img', function($value){
+                        $allowed =  array('fbx');
+      				  $filename = $_Files['fbx']['name'];
+      				  $ext = $this->extension($filename);
+      				  if(!in_array($ext,$allowed) ) {
+          			   return false;
+      				  }
+                      })),
+                      'errors' => array(
+                              'required' => 'You must provide a %s.',
+                              'img'=>'File must be of type fbx'
+          )
+              )
+              
+      );
 
-	/*$validation = array(
-       
-        array(
-                'field' => 'fbx',
-                'label' => 'fbx',
-                'rules' => array(array('img', function($value){
-                  $allowed =  array('fbx');
-				  $filename = $_Files['fbx']['name'];
-				  $ext = $this->extension($filename);
-				  if(!in_array($ext,$allowed) ) {
-    			   return false;
-				  }
-                })),
-                'errors' => array(
-                        'required' => 'You must provide a %s.',
-                        'img'=>'File must be of type fbx'
-    )
-        )
-        
-);
+          $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
-    $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+          $this->form_validation->set_rules($validation);
+                      if ($this->form_validation->run() == FALSE)
+                      { 
 
-    $this->form_validation->set_rules($validation);
-                if ($this->form_validation->run() == FALSE)
-                { 
+                             $this->template->show('upload', $this->TPL);
+                      }
+                      else
+                      {
+                     
+                          
+                        }*/
 
-                       $this->template->show('upload', $this->TPL);
-                }
-                else
-                {
-               
-                    
-                  }*/
+      $src = $_FILES['fbx']['tmp_name'];
+      $destination  = hardImgUrl(). $_FILES['fbx']['name'];
 
-        $src = $_FILES['fbx']['tmp_name'];
-        $destination  = hardImgUrl(). $_FILES['fbx']['name'];
-
-        move_uploaded_file($src,$destination);
-		$savePath = assetUrl() . "models/".$_FILES['fbx']['name'];
+      move_uploaded_file($src,$destination);
+		  $savePath = assetUrl() . "models/".$_FILES['fbx']['name'];
       $name = $_FILES['fbx']['name'];
       $description = "";
       $size = "";
-      $category_id = 0;
-        $this->UploadModel->insertFile($name, $description, $savePath,$size,$category_id); 	
-        $this->TPL['uploadsuccess'] = true;
-        $this->template->show('upload', $this->TPL);			
-  			}
+      $category_id = 1;
+      $color_id = 1;
+      $this->UploadModel->insertFile($name, $description, $savePath,$size,$category_id, $color_id); 	
+      $this->TPL['uploadsuccess'] = true;
+      $this->template->show('upload', $this->TPL);			
+  }
     
   function extension($path) { 
   $qpos = strpos($path, "?"); 
@@ -85,5 +83,5 @@ class Upload extends CI_Controller {
   $extension = pathinfo($path, PATHINFO_EXTENSION); 
 
   return $extension; 
-} 
+  } 
 }
