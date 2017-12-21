@@ -17,6 +17,7 @@ class Upload extends CI_Controller {
 	{
 				
 				
+        $this->TPL['uploadsuccess'] = false;
 			$this->template->show('upload', $this->TPL);
 	}
 
@@ -70,7 +71,9 @@ class Upload extends CI_Controller {
       $description = "";
       $size = "";
       $category_id = 0;
-        $this->UploadModel->insertFile($name, $description, $destination,$size,$category_id); 				
+        $this->UploadModel->insertFile($name, $description, $destination,$size,$category_id); 	
+        $this->TPL['uploadsuccess'] = true;
+        $this->template->show('upload', $this->TPL);			
   			}
     
   function extension($path) { 
