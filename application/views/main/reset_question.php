@@ -1,10 +1,13 @@
 
 							<div class="row">
 								<div class="col-xs-6 col-sm-5 col-md-5 col-lg-4 col-centered">
+								
 									<? if(isset($Error)) { ?>
+									
 									<div class="row text-center" style="color: red;">
 										<p><?= $Error; ?></p>
 									</div>
+									
 									<? } ?>
 								
 									<div class="row text-center">
@@ -30,7 +33,7 @@
 									
 										<div class="row form-group">
 											<label for="answer">Answer</label>
-											<input type="text" name="answer" id="answer" class="form-control" placeholder="Answer" />
+											<input required type="text" name="answer" id="answer" class="form-control" placeholder="Answer" />
 										</div>
 
 										<div class="row form-group">				
@@ -38,8 +41,6 @@
 												<input type="submit" class="form-control btn btn-success" value="Next">
 											</div>
 										</div>
-										
-										<? print_r($_POST); ?>
 									</form>
 								</div>
 							</div>
