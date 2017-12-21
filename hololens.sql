@@ -45,7 +45,19 @@ CREATE TABLE `hl_files` (
   `description` varchar(255),
   `location` varchar(255) NOT NULL,
   `size` varchar(20),
-  `category_id` int(10) 
+  `category_id` int(10),
+  'color_id' int(10)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `files`
+--
+DROP TABLE IF EXISTS `hl_colors`;
+CREATE TABLE `hl_files` (
+  'color_id' int(10) NOT NULL,
+  'name' varchar(50) NOT NULL
 );
 
 -- --------------------------------------------------------
