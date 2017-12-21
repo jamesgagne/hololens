@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://csunix.mohawkcollege.ca/~000328298/private/hololens/';
+$config['base_url'] = '';
 
 /*
 |--------------------------------------------------------------------------
