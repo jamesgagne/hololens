@@ -13,16 +13,17 @@ if (!function_exists('assetUrl'))
         // return the asset_url 
         //I've added the config item assetsPath 
         // in a custom config file which is autoloaded 
-        return base_url() . "application/assets/";
+        return base_url() . $CI->config->item('assetsPath');
     }
-
 }
+
 if (!function_exists('hardImgUrl')){
      
      function hardImgUrl()
      {
         $CI =& get_instance();
-        return $CI->config->item('imgPath');; 
+        //return  "/home/student/000328298/public_html/private/hololens/application/assets/img/";
+        return $CI->config->item('imgPath'); 
 
      }
 }

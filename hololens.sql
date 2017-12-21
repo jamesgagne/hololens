@@ -41,7 +41,7 @@ CREATE TABLE `hl_categories` (
 DROP TABLE IF EXISTS `hl_files`;
 CREATE TABLE `hl_files` (
   `file_id` int(10) NOT NULL,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `description` varchar(255),
   `location` varchar(255) NOT NULL,
   `size` varchar(20),

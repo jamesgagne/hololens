@@ -8,6 +8,8 @@ class Upload extends CI_Controller {
   public function __construct()
   {
     parent::__construct();
+
+    $this->load->model('UploadModel');
     // Your own constructor code
     //$this->TPL["UserLoggedIn"] = $this->userauthor->IsUserLoggedIn();
   }
@@ -61,10 +63,14 @@ class Upload extends CI_Controller {
                   }*/
 
         $src = $_FILES['fbx']['tmp_name'];
-    $destination  = hardImgUrl(). $_FILES['fbx']['name'];
-    move_uploaded_file($src,$destination);
+        $destination  = hardImgUrl(). $_FILES['fbx']['name'];
 
-  				
+        move_uploaded_file($src,$destination);
+      $name = $_FILES['fbx']['name'];
+      $description = "";
+      $size = "";
+      $category_id = 0;
+        $this->UploadModel->insertFile($name, $description, $destination,$size,$category_id); 				
   			}
     
   function extension($path) { 
