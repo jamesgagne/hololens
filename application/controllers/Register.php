@@ -61,7 +61,7 @@
 						
 						$picture["name"] = $picture_ID . $picture_Ext;
 						
-						$target_dir = "/home/student/000354878/public_html/private/hololens/application/assets/img/" . $picture["name"];
+						$target_dir = "/home/student/000328298/public_html/private/hololens/application/assets/img/" . $picture["name"];
 						$picture_link = assetUrl() . "../assets/img/" . $picture["name"];
 						
 						if (move_uploaded_file($picture["tmp_name"], $target_dir)) 
