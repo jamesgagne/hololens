@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = '';
+$config['base_url'] = 'https://csunix.mohawkcollege.ca/~000328298/private/hololens/';
 
 /*
 |--------------------------------------------------------------------------
@@ -190,6 +190,8 @@ $config['enable_query_strings'] = FALSE;
 $config['controller_trigger'] = 'c';
 $config['function_trigger'] = 'm';
 $config['directory_trigger'] = 'd';
+$config['assetsPath'] = "application/assets/";
+$config['imgPath'] = "/home/student/000328298/public_html/private/hololens/application/assets/img/";
 
 /*
 |--------------------------------------------------------------------------

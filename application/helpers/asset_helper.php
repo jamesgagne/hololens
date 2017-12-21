@@ -16,3 +16,14 @@ if (!function_exists('assetUrl'))
         return base_url() . $CI->config->item('assetsPath');
     }
 }
+
+if (!function_exists('hardImgUrl')){
+     
+     function hardImgUrl()
+     {
+        $CI =& get_instance();
+        //return  "/home/student/000328298/public_html/private/hololens/application/assets/img/";
+        return $CI->config->item('imgPath'); 
+
+     }
+}

@@ -61,18 +61,18 @@
 						
 						$picture["name"] = $picture_ID . $picture_Ext;
 						
-						$target_dir = "/home/student/000338052/public_html/private/Capstone3/application/assets/img/profile/" . $picture["name"];
-						$picture_link = assetUrl() . "img/profile/" . $picture["name"];
+						$target_dir = "/home/student/000354878/public_html/private/hololens/application/assets/img/" . $picture["name"];
+						$picture_link = assetUrl() . "../assets/img/" . $picture["name"];
 						
 						if (move_uploaded_file($picture["tmp_name"], $target_dir)) 
 						{
 							$this->db->trans_start();
 					
-							//$stmt = "INSERT INTO Picture (Picture_ID, Link, Alt_Text) VALUES (?, ?, ?);";
-							//$query = $this->db->query($stmt, array($picture_ID, $picture_link, "User Profile Picture"));						
+							$stmt = "INSERT INTO hl_files (file_id, name, description, location, size, category_id) VALUES (?, ?, ?, ?, ?, ?);";
+							$query = $this->db->query($stmt, array($file_id, $picture["name"], "User Profile Picture", "../assets/img/", ""));						
 							
-							//$stmt = "INSERT INTO Account (Username, Password, Privilege_Level_ID, Picture_ID, Account_Status, Security_Question_ID, Security_Question_Answer) VALUES (?, ?, ?, ?, ?, ?, ?);";
-							//$query = $this->db->query($stmt, array($username, password_hash($password, PASSWORD_BCRYPT), "Member", $picture_ID, "Active", $security_question, $answer));
+							$stmt = "INSERT INTO hl_users (user_id, name, salt, email, enckey, access_level_id, ) VALUES (?, ?, ?, ?, ?, ?);";
+							$query = $this->db->query($stmt, array($username, "", password_hash($password, PASSWORD_BCRYPT), $email, "", ""));
 							
 							$this->db->trans_complete();
 							
@@ -87,12 +87,8 @@
 					{
 						$this->db->trans_start();
 						
-						//$stmt = "INSERT INTO CAP_Account (Username, Password, Privilege_Level_ID, Account_Status, Security_Question_ID, Security_Question_Answer) VALUES (?, ?, ?, ?, ?, ?);";
-						//$query = $this->db->query($stmt, array($username, password_hash($password, PASSWORD_BCRYPT), "Member", "Active", $security_question, $answer));
-						
-						//$stmt = "INSERT INTO CAP_Customer_Info (Username, Email, First_Name, Last_Name, Province, Street_Address, City, Postal_Code) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-						//$query = $this->db->query($stmt, array($username, $email, $first_name, $last_name, $province, $address, $city, $postal));
-						
+						$stmt = "INSERT INTO hl_users (user_id, name, salt, email, enckey, access_level_id, ) VALUES (?, ?, ?, ?, ?, ?);";
+						$query = $this->db->query($stmt, array($username, "", password_hash($password, PASSWORD_BCRYPT), $email, "", ""));
 						$this->db->trans_complete();
 						
 						$didSucceed = true;
