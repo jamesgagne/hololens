@@ -46,7 +46,7 @@ CREATE TABLE `hl_files` (
   `location` varchar(255) NOT NULL,
   `size` varchar(20),
   `category_id` int(10),
-  'color_id' int(10)
+  `color_id` int(10)
 );
 
 -- --------------------------------------------------------
@@ -55,9 +55,9 @@ CREATE TABLE `hl_files` (
 -- Table structure for table `files`
 --
 DROP TABLE IF EXISTS `hl_colors`;
-CREATE TABLE `hl_files` (
-  'color_id' int(10) NOT NULL,
-  'name' varchar(50) NOT NULL
+CREATE TABLE `hl_colors` (
+  `color_id` int(10) NOT NULL,
+  `name` varchar(50) NOT NULL
 );
 
 -- --------------------------------------------------------
@@ -168,5 +168,5 @@ ALTER TABLE `hl_spaces`
 --
 -- AUTO_INCREMENT for table `space_file_lines`
 --
-ALTER TABLE `hl_space_file_lines`
+ALTER TABLE `hl_space_file_lines` 
   MODIFY `space_file_id` int(10) NOT NULL AUTO_INCREMENT;
