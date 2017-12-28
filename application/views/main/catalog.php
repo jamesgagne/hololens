@@ -5,7 +5,7 @@
 														
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 text-center">
-									<form method="GET" action="<?= base_url(); ?>index.php/Home">
+									<form method="GET" action="<?= base_url(); ?>index.php/Catalog">
 										
 										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-12">
 										
@@ -77,8 +77,8 @@
 									
 										<? foreach($Models as $model) { ?>
 									
-										<div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 thumbnail">
-											<label>
+										<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3" style="padding: 10px;">
+											<label class="thumbnail">
 												<input type="checkbox" class="pull-right model" value="<?= $model["file_id"]; ?>" />
 												<img style="width: 90%;" class="thumbnail-image" src="<?= assetUrl(); ?>img/no_image.png">
 												<h4 class="text-center"><?= $model["name"]; ?></h4>
