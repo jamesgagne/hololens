@@ -13,11 +13,11 @@
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		
-		<style>
-		</style>
+		<!-- Javascript for Catalog page -->
+		<script src="<?= assetUrl(); ?>js/catalog.js"></script>
 		
-		<script>
-		</script>
+		<!-- Stylesheet for Catalog page -->
+		<link rel="stylesheet" href="<?= assetUrl(); ?>css/catalog.css" />
 	</head>
 	
 	<body>
@@ -37,9 +37,16 @@
 				<div class="navbar-header navbar-right pull-right">
 					<ul class="nav pull-left">
 						<li class="pull-left">
-							<form method="GET" action="<?= base_url(); ?>index.php/Search">
+							<form method="GET" action="<?= base_url(); ?>index.php/Catalog">
+								
+								<? foreach((array)$SelectedCategories as $selectedCategory) { ?>
+								
+								<input type="hidden" name="<?= $selectedCategory; ?>" value="true" />
+								
+								<? } ?>
+							
 								<div class="input-group searchbar">
-									<input type="text" placeholder="Search" class="form-control" name="query" value="<?= $query; ?>" />
+									<input type="text" placeholder="Search" class="form-control" name="query" value="<?= $QueryString; ?>" />
 									<span class="input-group-btn">
 										<button class="btn btn-default" type="submit">
 											<span class="glyphicon glyphicon-search"></span>
@@ -55,28 +62,33 @@
 								<? if ($UserLoggedIn) { ?>
 							
 								<span><?= $Username; ?></span>
+								
 								<? } ?>
 								
 								<? if($UserLoggedIn AND empty($ProfilePicture) == false) { ?>
 								
 								<img style="height: 25px; border-radius: 7px;" src="<?= $ProfilePicture; ?>" />
+								
 								<? } ?>
 								
 								<? if($UserLoggedIn AND empty($ProfilePicture)) { ?>
 								
 								<span class="glyphicon glyphicon-user"></span>
+								
 								<? } ?>
 								
 								<? if(!$UserLoggedIn) { ?>
 								
 								<span>Log In</span>
 								<span class="glyphicon glyphicon-user"></span>
+								
 								<? } ?>	
 								
 								<span class="caret"></span>
 							</a>
 							
 							<ul class="dropdown-menu" role="menu">
+							
 							<? if($UserLoggedIn) { ?>
 							
 								<div class="col-xs-5 col-xs-offset-1">
@@ -90,6 +102,7 @@
 										<button class="btn btn-primary">Logout</button>
 									</a>
 								</div>
+								
 							<? } ?>
 							
 							<? if(!$UserLoggedIn) { ?>
@@ -137,9 +150,9 @@
 												</div>
 											</div>
 										</div>
-
 									</form>
 								</div>
+								
 							<? } ?>
 							
 							</ul>

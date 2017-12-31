@@ -22,16 +22,6 @@ nav {
 	padding: 25px;
 }
 
-.sidebar {
-	background-color: white;
-	border-radius: 5px;
-	padding: 25px;
-}
-
-.sidebar-thumb {
-	margin: 0 auto;
-}
-
 .content {
 	margin-top: 70px;
 
@@ -127,14 +117,6 @@ nav {
 
 .profile-picture {
 	width: 100%;
-}
-
-@media (min-width: 1200px) {
-	.sidebar-item {
-		width: 86% !important;
-		float: none;
-	    margin: 0 auto;
-	}
 }
 
 @media (max-width: 1200px) {

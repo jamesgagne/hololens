@@ -1,11 +1,15 @@
 							
 							<title>Catalog</title>
-							
-							<script src="<?= assetUrl(); ?>js/catalog.js"></script>
 														
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 text-center">
 									<form method="GET" action="<?= base_url(); ?>index.php/Catalog">
+										
+										<? if(!empty($QueryString)) { ?>
+										
+										<input type="hidden" name="query" value="<?= $QueryString; ?>" />
+										
+										<? } ?>
 										
 										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-12">
 										
@@ -42,14 +46,13 @@
 													
 														<? foreach($Colors as $color) { ?>
 													
-														<option <? if($SelectedColor == $color["name"]) echo "selected"; ?> value="<?= $color["name"]; ?>"><?= $color["name"]; ?></option>
+														<option <? if($SelectedColor == $color["name"]) echo "selected"; ?> value="<?= $color["name"] ?>"><?= $color["name"]; ?></option>
 														
 														<? } ?>
 														
 													</select>
 												</label>
 											</div>
-											
 										</div>
 										
 										<div class="col-xs-12">
@@ -64,11 +67,21 @@
 									<div class="row">
 										<span class="h1">3D <small>Models</small></span>
 										
-										<input type="hidden" id="assetUrl" value="<?= assetUrl(); ?>models/" />
+										<input type="hidden" id="base_url" value="<?= base_url(); ?>" />
 										
-										<input style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Add To List" data-toggle="modal" data-target="#addModal"/>
-										<input style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Delete" data-toggle="modal" data-target="#deleteModal"/>
-										<input style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Download" id="downloadSelectedModels" />
+										<? if(true) { ?>
+										
+										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Add To List" data-toggle="modal" data-target="#addModal" id="addButton" />
+										
+										<? } ?>
+										
+										<? if(true) { ?>
+										
+										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Delete" data-toggle="modal" data-target="#deleteModal" id="deleteButton" />
+										
+										<? } ?>
+										
+										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Download" id="downloadButton" />
 									</div>
 									
 									<br>
@@ -78,9 +91,9 @@
 										<? foreach($Models as $model) { ?>
 									
 										<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3" style="padding: 10px;">
-											<label class="thumbnail">
-												<input type="checkbox" class="pull-right model" value="<?= $model["file_id"]; ?>" />
-												<img style="width: 90%;" class="thumbnail-image" src="<?= assetUrl(); ?>img/no_image.png">
+											<label class="thumbnail file_tile">
+												<input type="checkbox" class="pull-right model fileCheckBox" value="<?= $model["location"]; ?>" />
+												<img style="width: 90%;" class="thumbnail-image" src="<?= $model["link"]; ?>">
 												<h4 class="text-center"><?= $model["name"]; ?></h4>
 											</label>
 										</div>	
@@ -101,11 +114,17 @@
 										</div>
 									
 										<div class="modal-body">
-											<p>Select the list to add selected items too.</p>
+											<p>Select the list to add the <span id="addFileCount"></span> selected model(s) to.</p>
 										
 											<label for="myListID">My List(s)</label>
 											<select id="myListID" class="form-control">
+												
+												<? foreach($Lists as $list) { ?>
+												
 												<option></option>
+												
+												<? } ?>
+												
 											</select>
 										</div>
 										
@@ -127,7 +146,7 @@
 										</div>
 									
 										<div class="modal-body">
-											<p>Are you sure you want to delete the selected models?</p>
+											<p>Are you sure you want to delete the <span id="deleteFileCount"></span> selected model(s)?</p>
 										</div>
 										
 										<div class="modal-footer">
