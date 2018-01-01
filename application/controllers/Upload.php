@@ -60,7 +60,7 @@ class Upload extends CI_Controller {
                           
                         }*/
 
-      $src = $_FILES['fbx']['tmp_name'];
+      /*$src = $_FILES['fbx']['tmp_name'];
       $destination  = hardImgUrl(). $_FILES['fbx']['name'];
 
       move_uploaded_file($src,$destination);
@@ -72,7 +72,8 @@ class Upload extends CI_Controller {
       $color_id = 1;
       $this->UploadModel->insertFile($name, $description, $savePath,$size,$category_id, $color_id); 	
       $this->TPL['uploadsuccess'] = true;
-      $this->template->show('upload', $this->TPL);			
+      $this->template->show('upload', $this->TPL);	*/
+      echo json_encode("Post= " . print_r($_POST) . "Files= ". print_r($_FILES) );		
   }
     
   function extension($path) { 
