@@ -1,3 +1,25 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.10.7
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jan 01, 2018 at 03:33 AM
+-- Server version: 5.1.73
+-- PHP Version: 5.5.23
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `000338052`
+--
+
 -- --------------------------------------------------------
 
 --
@@ -9,7 +31,15 @@ CREATE TABLE IF NOT EXISTS `hl_access_levels` (
   `access_level_id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`access_level_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `hl_access_levels`
+--
+
+INSERT INTO `hl_access_levels` (`access_level_id`, `name`) VALUES
+(0000000001, 'Admin'),
+(0000000002, 'Member');
 
 -- --------------------------------------------------------
 
@@ -56,7 +86,7 @@ INSERT INTO `hl_colors` (`color_id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hl_files`
+-- Table structure for table `hl_models`
 --
 
 DROP TABLE IF EXISTS `hl_models`;
@@ -68,12 +98,8 @@ CREATE TABLE IF NOT EXISTS `hl_models` (
   `picture_id` varchar(50) DEFAULT NULL,
   `category_id` int(10) DEFAULT NULL,
   `color_id` int(10) DEFAULT NULL,
-  PRIMARY KEY (`file_id`)
+  PRIMARY KEY (`model_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
-
---
--- Dumping data for table `hl_files`
---
 
 -- --------------------------------------------------------
 
@@ -115,7 +141,7 @@ DROP TABLE IF EXISTS `hl_space_file_lines`;
 CREATE TABLE IF NOT EXISTS `hl_space_file_lines` (
   `space_file_id` int(10) NOT NULL AUTO_INCREMENT,
   `space_id` int(10) NOT NULL,
-  `file_id` int(10) NOT NULL,
+  `model_id` int(10) NOT NULL,
   PRIMARY KEY (`space_file_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -134,3 +160,7 @@ CREATE TABLE IF NOT EXISTS `hl_users` (
   `access_level_id` int(10) NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
