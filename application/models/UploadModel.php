@@ -2,16 +2,14 @@
 
 class UploadModel extends CI_Model{
 	
-	function insertFile($name, $description, $location,$size,$category_id,$color_id){
+	function insertModel($name, $description, $location){
 		$data = array(
                'name' => $name,
                'description' => $description,
-               'location' => $location,
-               'size' => $size,
-               'category_id' => $category_id,
-			   'color_id'=> $color_id
+               'location' => $location
             );
-		$q = $this->db->insert('hl_files', $data); 
+		$q = $this->db->insert('hl_models', $data); 
+		return $this->db->insert_id();
 
 	}
 }

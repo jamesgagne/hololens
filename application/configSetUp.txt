@@ -2,7 +2,7 @@ unzip config.zip to applicatio directory
 
 config.php 
 
--> set $config['base_url'] = "https://csunix.mohawkcollege.ca/{yourStudentID}/private/hololens/"
+-> set $config['base_url'] = "https://csunix.mohawkcollege.ca/~{yourStudentID}/private/hololens/"
 -> set $config['assetsPath'] = "application/assets/";
 -> set $config['imgPath'] = "/home/student/{yourStudentID}/public_html/private/hololens/application/assets/models/";
 
