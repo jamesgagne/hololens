@@ -1,15 +1,26 @@
+							<title>Login</title>
+
+							<? if(isset($errorList) AND count($errorList) > 0) { ?>
 							
 							<div class="row">
-								<div class="col-xs-6 col-md-4 col-lg-4 col-centered">
-									<ul>
-									<? foreach($errorList as $error) { ?>
+								<div class="col-xs-8 col-centered">
+									<ul class="alert alert-danger fade in" style="padding: 20px 20px 20px 40px;">
 									
-										<li><?= $error; ?></li>
+									<? if(isset($errorList)) { ?>
+									
+										<? foreach($errorList as $error) { ?>
+										
+										<li><strong><?= $error; ?></strong></li>
+										
+										<? } ?>
+										
 									<? } ?>
 									
-									</ul>
+									</ul>								
 								</div>
 							</div>
+							
+							<? } ?>
 							
 							<div class="row">
 								<div class="col-xs-5 col-lg-3 col-centered">
@@ -19,8 +30,8 @@
 									
 									<form action="<?= base_url(); ?>index.php/Login" method="POST">
 										<div class="form-group">
-											<label for="username">Username</label>
-											<input type="text" name="login-username" id="login-username" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off">
+											<label for="login-email">Email</label>
+											<input type="text" name="login-email" id="login-email" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off">
 										</div>
 
 										<div class="form-group">

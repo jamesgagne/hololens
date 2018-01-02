@@ -5,9 +5,9 @@ $(document).ready(function() {
 	// event handlers
 	$("#downloadButton").click(function(){		
 		$('.model:checkbox:checked').each(function() {		
-			var filePath = $(this).val();
+			var fileInfo = $(this).val();
 			
-			downloadModel(filePath);
+			downloadModel(fileInfo);
 		});
 	});
 	
@@ -44,51 +44,66 @@ $(document).ready(function() {
 	});
 	
 	$("#addOK").click(function() {
-		var listID = $("#myListID").val();
+		var space_id = $("#spaceID").val();
 		
 		$('.model:checkbox:checked').each(function() {		
-			var filePath = $(this).val();
+			var fileInfo = $(this).val();
 			
-			addModel(filePath, listID);
+			addModel(fileInfo, space_id);
 		});
 	});
 	
 	$("#deleteOK").click(function() {
 		$('.model:checkbox:checked').each(function() {		
-			var filePath = $(this).val();
+			var fileInfo = $(this).val();
 			
-			deleteModel(filePath);
+			deleteModel(fileInfo);
 		});
 	});
 	
 	// methods
-	function deleteModel(path) {
+	function deleteModel(fileInfo) {
+		var path = fileInfo.split(",")[0];
+		var model_id = fileInfo.split(",")[2];
+		
 		$.ajax({
 			type:'POST',
 			url: base_url + "index.php/Catalog/DeleteModel",
-			data:{'filePath':path},
-			success:function(data){
-				alert(data);
-			}
-		});
-	}
-	
-	function addModel(path, listID) {
-		$.ajax({
-			type:'POST',
-			url: base_url + "index.php/Catalog/AddModelToList",
 			data:{
-				'filePath':path,
-				"listID":listID
+				"model_id":model_id
 			},
 			success:function(data){
-				alert(data);
+				if(data != "errror") {
+					$('.model:checkbox:checked').each(function() {		
+						var fileInfo = $(this).val();
+						var model_id = fileInfo.split(",")[2];
+						var parent = $(this).parent();
+						
+						if(data == model_id) {
+							parent.remove();
+						}
+					});
+				}
 			}
 		});
 	}
 	
-	function downloadModel(path) {
-		var fileName = path.split("/")[path.split("/").length - 1];
+	function addModel(fileInfo, space_id) {
+		var model_id = fileInfo.split(",")[2];
+		
+		$.ajax({
+			type:'POST',
+			url: base_url + "index.php/Catalog/AddModelToWorkspace",
+			data:{
+				"space_id":space_id,
+				"model_id":model_id
+			}
+		});
+	}
+	
+	function downloadModel(info) {		
+		var fileName = info.split(",")[1];
+		var path = info.split(",")[0];
 		
 		var element = document.createElement('a');
 		element.setAttribute('href', path);

@@ -16,11 +16,12 @@
 		{
 			if($this->TPL["UserLoggedIn"])
 			{
-				$username = $this->userauthor->GetUsername();
+				$email = $this->userauthor->GetEmail();
 				
-				$this->TPL["Username"] = $username;
-				$this->TPL["PrivilegeLevel"] = $this->userauthor->GetPrivilegeLevel($username);
-				$this->TPL["ProfilePicture"] = $this->userauthor->GetProfilePicture($username);
+				$this->TPL["Email"] = $email;
+				$this->TPL["AccessLevel"] = $this->userauthor->GetAccessLevel($email);
+				$this->TPL["ProfilePicture"] = $this->userauthor->GetProfilePicture($email);
+				$this->TPL["Spaces"] = $this->GetWorkSpaces($email);
 			}
 			
 			$this->TPL["Models"] = $this->GetModels();
@@ -31,14 +32,33 @@
 		}
 		
 		public function DeleteModel() {
-			$filePath = $this->input->post("filePath");
+			$model_id = $this->input->post("model_id");
 			
-			//return print($filePath); // return true if successful to update view
+			$this->db->delete("hl_models", array("model_id" => $model_id));
+			
+			$query = $this->db->get_where("hl_models", array("model_id" => $model_id));
+			$result = $query->result_array();
+			
+			if(count($result) == 0)
+			{
+				return print($model_id);
+			}
+			else
+			{
+				return print("error");
+			}
 		}
 		
-		public function AddModelToList() {
-			//$filePath = $this->input->post("filePath");
-			//$listID = $this->input->post("listID");
+		public function AddModelToWorkspace() {
+			$space_id = $this->input->post("space_id");
+			$model_id = $this->input->post("model_id");
+			
+			$values = array(
+				"space_id" => $space_id,
+				"model_id" => $model_id
+			);
+	
+			$this->db->insert("hl_space_file_lines", $values);
 		}
 		
 		// get all categories in table
@@ -85,41 +105,44 @@
 				// when both color and category(s) are selected
 				if((!empty($color) AND $color != "All") AND (count($categories) > 0)) 
 				{
-					$this->db->select("f.file_id, f.name, f.description, f.location, co.name, ca.name");
-					$this->db->from("hl_files as f");
-					$this->db->join("hl_pictures as p");
-					$this->db->join("hl_colors as co", "f.color_id = co.color_id");
-					$this->db->join("hl_categories as ca", "f.category_id = ca.category_id");			
+					$this->db->select("m.model_id, m.name, m.description, m.location, co.name, ca.name, p.link");
+					$this->db->from("hl_models as m");
+					$this->db->join("hl_pictures as p", "m.picture_id = p.picture_id", "left");
+					$this->db->join("hl_colors as co", "m.color_id = co.color_id");
+					$this->db->join("hl_categories as ca", "m.category_id = ca.category_id");			
 					$this->db->where("co.name", $color);
 					$this->db->where_in("ca.name", $categories);
 				}
 				// when only a color is selected
 				else if(!empty($color) && $color != "All")
 				{
-					$this->db->select("f.file_id, f.name, f.description, f.location, co.name");
-					$this->db->from("hl_files as f");			
-					$this->db->join("hl_colors as co", "f.color_id = co.color_id");		
+					$this->db->select("m.model_id, m.name, m.description, m.location, co.name, p.link");
+					$this->db->from("hl_models as m");
+					$this->db->join("hl_pictures as p", "m.picture_id = p.picture_id", "left");
+					$this->db->join("hl_colors as co", "m.color_id = co.color_id");		
 					$this->db->where("co.name", $color);
 				}
 				// when only category(s) are selected
 				else if(count($categories) > 0)
 				{
-					$this->db->select("f.file_id, f.name, f.description, f.location, ca.name");
-					$this->db->from("hl_files as f");
-					$this->db->join("hl_categories as ca", "f.category_id = ca.category_id");			
+					$this->db->select("m.model_id, m.name, m.description, m.location, ca.name, p.link");
+					$this->db->from("hl_models as m");
+					$this->db->join("hl_pictures as p", "m.picture_id = p.picture_id", "left");
+					$this->db->join("hl_categories as ca", "m.category_id = ca.category_id");			
 					$this->db->where_in("ca.name", $categories);
 				}
 				// otherwise get everything
 				else
 				{
-					$this->db->select("f.file_id, f.name, f.description, f.location");
-					$this->db->from("hl_files as f");
+					$this->db->select("m.model_id, m.name, m.description, m.location, p.link");
+					$this->db->from("hl_models as m");
+					$this->db->join("hl_pictures as p", "m.picture_id = p.picture_id", "left");
 				}
 				
 				// where search string
 				if(!empty($queryString))
 				{
-					$this->db->like("f.name", $queryString);
+					$this->db->like("m.name", $queryString);
 				}
 				
 				$query = $this->db->get();
@@ -131,7 +154,10 @@
 			}
 			else
 			{
-				$query = $this->db->get("hl_files");
+				$this->db->select("m.model_id, m.name, m.description, m.location, p.link");
+				$this->db->from("hl_models as m");
+				$this->db->join("hl_pictures as p", "m.picture_id = p.picture_id", "left");
+				$query = $this->db->get();
 			}
 
 			return $query->result_array();
@@ -145,6 +171,16 @@
 			
 			if(count(result) > 0) return $result;
 			else return [];
+		}
+		
+		// Get all workspaces for this user if a user is logged in
+		private function GetWorkSpaces($email) 
+		{
+			$user_id = $this->db->get_where("hl_users", array("email" => $email))->result_array()[0]["user_id"];
+			
+			$workspacesForUser = $this->db->get_where("hl_spaces", array("user_id" => $user_id))->result_array();
+			
+			return $workspacesForUser;
 		}
 	}
 ?>

@@ -69,13 +69,13 @@
 										
 										<input type="hidden" id="base_url" value="<?= base_url(); ?>" />
 										
-										<? if(true) { ?>
+										<? if($UserLoggedIn) { ?>
 										
-										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Add To List" data-toggle="modal" data-target="#addModal" id="addButton" />
+										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Add To Workspace" data-toggle="modal" data-target="#addModal" id="addButton" />
 										
 										<? } ?>
 										
-										<? if(true) { ?>
+										<? if($AccessLevel == "Admin") { ?>
 										
 										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Delete" data-toggle="modal" data-target="#deleteModal" id="deleteButton" />
 										
@@ -92,7 +92,7 @@
 									
 										<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3" style="padding: 10px;">
 											<label class="thumbnail file_tile">
-												<input type="checkbox" class="pull-right model fileCheckBox" value="<?= $model["location"]; ?>" />
+												<input type="checkbox" class="pull-right model fileCheckBox" value="<?= $model["location"]; ?>,<?= $model["name"]; ?>,<?= $model["model_id"]; ?>" />
 												<img style="width: 90%;" class="thumbnail-image" src="<?= $model["link"]; ?>">
 												<h4 class="text-center"><?= $model["name"]; ?></h4>
 											</label>
@@ -104,24 +104,26 @@
 								</div>
 							</div>
 							
+							<? if($UserLoggedIn) { ?>
+							
 							<!-- Add Modal -->
 							<div class="modal fade" id="addModal">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
-											<span class="h4">Add To List</span>
+											<span class="h4">Add To Workspace</span>
 										</div>
 									
 										<div class="modal-body">
-											<p>Select the list to add the <span id="addFileCount"></span> selected model(s) to.</p>
+											<p>Select the workspace to add the <span id="addFileCount"></span> selected model(s) to.</p>
 										
-											<label for="myListID">My List(s)</label>
-											<select id="myListID" class="form-control">
+											<label for="spaceID">My Workspace(s)</label>
+											<select id="spaceID" class="form-control">
 												
-												<? foreach($Lists as $list) { ?>
+												<? foreach($Spaces as $space) { ?>
 												
-												<option></option>
+												<option value="<?= $space["space_id"]; ?>"><?= $space["name"]; ?></option>
 												
 												<? } ?>
 												
@@ -135,6 +137,10 @@
 									</div>
 								</div>
 							</div>
+							
+							<? } ?>
+							
+							<? if($AccessLevel == "Admin") { ?>
 							
 							<!-- Delete Modal -->
 							<div class="modal fade" id="deleteModal">
@@ -156,3 +162,5 @@
 									</div>
 								</div>
 							</div>
+							
+							<? } ?>

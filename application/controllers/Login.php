@@ -25,13 +25,13 @@
 				{
 					$this->TPL["errorList"] = [];
 					
-					if(isset($_POST["login-username"]))
+					if(isset($_POST["login-email"]))
 					{
-						$username = $_POST["login-username"];
+						$email = $_POST["login-email"];
 					}
 					else
 					{
-						$username = $_POST["username"];
+						$email = $_POST["email"];
 					}
 					
 					if(isset($_POST["login-password"]))
@@ -43,7 +43,7 @@
 						$password = $_POST["password"];
 					}
 
-					$this->TPL["errorList"] = $this->userauthor->Login($username, $password);
+					$this->TPL["errorList"] = $this->userauthor->Login($email, $password);
 					
 					if(sizeof($this->TPL["errorList"]) == 0)
 					{

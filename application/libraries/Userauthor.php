@@ -12,7 +12,7 @@
 			$this->CI =& get_instance();
 		}
 		
-		public function Login($username, $password)
+		public function Login($email, $password)
 		{			
 			if($this->IsUserLoggedIn())
 			{
@@ -23,53 +23,35 @@
 				$isValid = true;
 				$errors = [];
 				
-				if(!$this->ValidateLoginCredentials($username, $password))
+				if(!$this->ValidateLoginCredentials($email, $password))
 				{
 					$isValid = false;
 					
-					array_push($errors, "Username and password cannot be blank!");
+					array_push($errors, "Email and password cannot be blank!");
 				}
 				else
 				{
-					if(!$this->IsUserInDatabase($username))
+					if(!$this->IsUserInDatabase($email))
 					{
 						$isValid = false;
 						
 						array_push($errors, "No such user exists!");
 					}
-					else
-					{
-						if($this->IsUserSuspended($username))
-						{
-							$isValid = false;
-							
-							array_push($errors, "User is suspended you cannot login until your suspension ends!");
-						}
-						else
-						{
-							if($this->IsUserBanned($username))
-							{
-								$isValid = false;
-								
-								array_push($errors, "User is banned, you cannot login!");
-							}
-						}
-					}
 				}
 				
 				if($isValid)
 				{
-					//$stmt = "SELECT * FROM Account WHERE Username = ?;";
-					$query = $this->CI->db->query($stmt, array($username));
+					$query = $this->CI->db->get_where("hl_users", array("email" => $email));
+					
 					$result = $query->result_array();
 					
-					$hashedPassword = $result[0]["Password"];
+					$hashedPassword = $result[0]["enckey"];
 					
 					if(password_verify($password, $hashedPassword))
 					{
-						$privilegeLevel = $this->GetPrivilegeLevel($username);
+						$accessLevel = $this->GetAccessLevel($email);
 					
-						$this->WriteSession($username, $privilegeLevel);
+						$this->WriteSession($email, $accessLevel);
 					
 						return [];
 					}
@@ -89,8 +71,7 @@
 		
 		public function GetAllSecurityQuestions()
 		{
-			//$stmt = "SELECT * FROM Security_Question;";
-			$query = $this->CI->db->query($stmt, array());
+			$query = $this->CI->db->get("hl_security_questions");
 			$result = $query->result_array();
 
 			return $result;
@@ -109,59 +90,43 @@
 		{
 			session_start();
 			
-			return (isset($_SESSION['username']));
+			return (isset($_SESSION['Email']));
 		}
 		
-		public function IsUserBanned($username)
+		public function IsUserInDatabase($email)
 		{
-			//$stmt = "SELECT * FROM Account WHERE Username = ?;";
-			$query = $this->CI->db->query($stmt, array($username));
-			$result = $query->result_array();
-
-			return ($result[0]["Account_Status"] == "Banned");
-		}
-		
-		public function IsUserSuspended($username)
-		{
-			//$stmt = "SELECT * FROM Suspension WHERE Username = ?;";
-			$query = $this->CI->db->query($stmt, array($username));
-			$result = $query->result_array();
-
-			return (sizeof($result) == 1);
-		}
-		
-		public function IsUserInDatabase($username)
-		{
-			//$stmt = "SELECT * FROM Account WHERE Username = ?;";
-			$query = $this->CI->db->query($stmt, array($username));
+			$query = $this->CI->db->get_where("hl_users", array("email" => $email));
 			$result = $query->result_array();
 			
 			return (sizeof($result) == 1);
 		}
 		
-		public function ValidateLoginCredentials($username, $password)
+		public function ValidateLoginCredentials($email, $password)
 		{
-			return ((empty($username) == false) && (empty($password) == false));
+			return ((empty($email) == false) && (empty($password) == false));
 		}
 		
-		public function GetUsername()
+		public function GetEmail()
 		{
-			return $_SESSION['username'];
+			return $_SESSION['Email'];
 		}
 		
-		public function GetPrivilegeLevel($username)
+		public function GetAccessLevel($email)
 		{
-			if(isset($_SESSION["PrivilegeLevel"]))
+			if(isset($_SESSION["AccessLevel"]))
 			{
-				return $_SESSION["PrivilegeLevel"];
+				return $_SESSION["AccessLevel"];
 			}
 			else
-			{
-				//$stmt = "SELECT * FROM Account WHERE Username = ?;";
-				$query = $this->CI->db->query($stmt, array($username));
+			{			
+				$this->CI->db->select("al.name");
+				$this->CI->db->from("hl_users as u");
+				$this->CI->db->join("hl_access_levels as al", "u.access_level_id = al.access_level_id");
+				$query = $this->CI->db->get_where("hl_users", array("u.email" => $email));
+				
 				$result = $query->result_array();
-			
-				return $result[0]["Privilege_Level_ID"];
+				
+				return $result[0]["name"];
 			}
 		}
 		
@@ -171,19 +136,23 @@
 			exit;
 		}
 		
-		public function GetProfilePicture($username)
-		{
-			//$stmt = "SELECT * FROM Account AS a JOIN CAP_Picture AS p ON a.Picture_ID = p.Picture_ID WHERE Username = ?;";
-			$query = $this->CI->db->query($stmt, array($username));
+		public function GetProfilePicture($email)
+		{			
+			$this->CI->db->select("u.email, p.link");
+			$this->CI->db->from("hl_users as u");
+			$this->CI->db->join("hl_pictures as p", "u.picture_id = p.picture_id");
+			$this->CI->db->where("u.email", $email);		
+			$query = $this->CI->db->get();
+				
 			$result = $query->result_array();
 		
-			return $result[0]["Link"];
+			return $result[0]["link"];
 		}
 		
-		private function WriteSession($username, $privilegeLevel)
+		private function WriteSession($email, $accessLevel)
 		{
-			$_SESSION['username'] = $username;
-			$_SESSION["privilegeLevel"] = $privilegeLevel;
+			$_SESSION['Email'] = $email;
+			$_SESSION["AccessLevel"] = $accessLevel;
 		}
 	}
 ?>

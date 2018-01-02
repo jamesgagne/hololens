@@ -16,6 +16,9 @@
 		<!-- Javascript for Catalog page -->
 		<script src="<?= assetUrl(); ?>js/catalog.js"></script>
 		
+		<!-- Javascript for Register page -->
+		<script src="<?= assetUrl(); ?>js/register.js"></script>
+		
 		<!-- Stylesheet for Catalog page -->
 		<link rel="stylesheet" href="<?= assetUrl(); ?>css/catalog.css" />
 	</head>
@@ -61,7 +64,7 @@
 							
 								<? if ($UserLoggedIn) { ?>
 							
-								<span><?= $Username; ?></span>
+								<span><?= $Email; ?></span>
 								
 								<? } ?>
 								
@@ -114,8 +117,8 @@
 									
 									<form action="<?= base_url(); ?>index.php/Login" method="POST">
 										<div class="form-group">
-											<label for="username">Username</label>
-											<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off">
+											<label for="email">Email</label>
+											<input type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off">
 										</div>
 
 										<div class="form-group">
@@ -174,7 +177,13 @@
 					<!-- Navbar LEFT Links -->
 					<ul class="nav navbar-nav navbar-left">
 						<li><a href="<?= base_url(); ?>">Catalog</a></li>
+						
+						<? if($UserLoggedIn) { ?>
+						
 						<li><a href="<?= base_url() . "index.php/Upload"; ?>">Upload</a></li>
+						
+						<? } ?>
+						
 					</ul>
 				</div>
 			</div>

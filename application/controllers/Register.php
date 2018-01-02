@@ -37,12 +37,11 @@
 			$this->TPL["errorList"] = [];
 			$didSucceed = false;
 			
-			$username = $_POST["register-username"];
+			$email = $_POST["register-email"];
+			$confirm_email = $_POST["confirm-email"];
 			$password = $_POST["register-password"];
 			$confirm_password = $_POST["confirm-password"];
-			$email = $_POST["email"];
-			$confirm_email = $_POST["confirm-email"];
-			$picture = $_FILES["picture"];
+			$picture = $_FILES["register-picture"];
 			
 			$first_name = $_POST["first-name"];
 			$last_name = $_POST["last-name"];
@@ -50,8 +49,10 @@
 			$security_question = $_POST["security-question"];
 			$answer = $_POST["answer"];
 			
-			if($this->VerifyAccountInfo($username, $password, $confirm_password, $email, $confirm_email, $picture))
+			if($this->VerifyAccountInfo($email, $confirm_email, $password, $confirm_password, $picture))
 			{
+				$memberAccessLevelID = $this->db->get_where("hl_access_levels", array("name" => "Member"))->result_array()[0]["access_level_id"];
+				
 				if($this->VerifyPasswordResetInfo($security_question, $answer))
 				{	
 					if(file_exists($picture["tmp_name"]) || is_uploaded_file($picture['tmp_name']))
@@ -61,18 +62,37 @@
 						
 						$picture["name"] = $picture_ID . $picture_Ext;
 						
-						$target_dir = "/home/student/000328298/public_html/private/hololens/application/assets/img/" . $picture["name"];
-						$picture_link = assetUrl() . "../assets/img/" . $picture["name"];
+						// string manipulation stuff to get releative file directory path so that it should work on everyones csunix
+						$startIndex = strpos(assetUrl(), "~") + 1;
+						$endIndex = strpos(assetUrl(), "/private");
+						
+						$target_dir = "/home/student/" . substr(assetUrl(), $startIndex, ($endIndex - $startIndex)) . "/public_html" . substr(assetUrl(), strpos(assetUrl(), "/private/")) . "img/profile/" . $picture["name"];
+						$picture_link = assetUrl() . "img/profile/" . $picture["name"];
 						
 						if (move_uploaded_file($picture["tmp_name"], $target_dir)) 
 						{
 							$this->db->trans_start();
-					
-							$stmt = "INSERT INTO hl_files (file_id, name, description, location, size, category_id) VALUES (?, ?, ?, ?, ?, ?);";
-							$query = $this->db->query($stmt, array($file_id, $picture["name"], "User Profile Picture", "../assets/img/", ""));						
 							
-							$stmt = "INSERT INTO hl_users (user_id, name, salt, email, enckey, access_level_id, ) VALUES (?, ?, ?, ?, ?, ?);";
-							$query = $this->db->query($stmt, array($username, "", password_hash($password, PASSWORD_BCRYPT), $email, "", ""));
+							$values = array(
+								"description" => "User profile picture",
+								"link" => $picture_link
+							);
+							
+							$this->db->insert("hl_pictures", $values);
+							
+							// get new picture_id - could also generate and use unique id here for picture and save the db call
+							$picture_id = $this->db->get_where("hl_pictures", array("link" => $picture_link))->result_array()[0]["picture_id"];
+							
+							$values = array(
+								"email" => $email,
+								"enckey" => password_hash($password, PASSWORD_BCRYPT),
+								"first_name" => $first_name,
+								"last_name" => $last_name,
+								"access_level_id" => $memberAccessLevelID,
+								"picture_id" => $picture_id
+							);
+					
+							$this->db->insert("hl_users", $values);
 							
 							$this->db->trans_complete();
 							
@@ -85,11 +105,15 @@
 					}
 					else
 					{
-						$this->db->trans_start();
+						$values = array(
+							"email" => $email,
+							"enckey" => password_hash($password, PASSWORD_BCRYPT),
+							"first_name" => $first_name,
+							"last_name" => $last_name,
+							"access_level_id" => $memberAccessLevelID
+						);
 						
-						$stmt = "INSERT INTO hl_users (user_id, name, salt, email, enckey, access_level_id, ) VALUES (?, ?, ?, ?, ?, ?);";
-						$query = $this->db->query($stmt, array($username, "", password_hash($password, PASSWORD_BCRYPT), $email, "", ""));
-						$this->db->trans_complete();
+						$query = $this->db->insert("hl_users", $values);
 						
 						$didSucceed = true;
 					}
@@ -99,12 +123,11 @@
 			
 			// if failed set form memory
 			if($didSucceed == false)
-			{				
-				$this->TPL["username"] = $username;
+			{
+				$this->TPL["email"] = $email;
+				$this->TPL["confirm_email"] = $confirm_email;				
 				$this->TPL["password"] = $password;
 				$this->TPL["confirm_password"] = $confirm_password;
-				$this->TPL["email"] = $email;
-				$this->TPL["confirm_email"] = $confirm_email;
 				$this->TPL["picture"] = $picture;
 				
 				$this->TPL["first_name"] = $first_name;
@@ -119,24 +142,24 @@
 			}
 		}
 		
-		private function VerifyAccountInfo($username, $password, $confirm_password, $email, $confirm_email, $picture)
+		private function VerifyAccountInfo($email, $confirm_email, $password, $confirm_password, $picture)
 		{
 			$isValid = true;
 			
-			// Validate Username and Password
-			if(!$this->userauthor->ValidateLoginCredentials($username, $password))
+			// Validate Email and Password
+			if(!$this->userauthor->ValidateLoginCredentials($email, $password))
 			{
 				$isValid = false;
 				
-				array_push($this->TPL["errorList"], "Username or Password cannot be blank!");
+				array_push($this->TPL["errorList"], "Email or Password cannot be blank!");
 			}
 			
-			// Check if username is already in use
-			if($this->userauthor->IsUserInDatabase($username))
+			// Check if email is already in use
+			if($this->userauthor->IsUserInDatabase($email))
 			{
 				$isValid = false;
 				
-				array_push($this->TPL["errorList"], "Username is already in use!");
+				array_push($this->TPL["errorList"], "Email is already in use!");
 			}
 			
 			// Check that password and password confirmation are the same

@@ -10,15 +10,21 @@ class Upload extends CI_Controller {
     parent::__construct();
 
     $this->load->model('UploadModel');
-    // Your own constructor code
-    //$this->TPL["UserLoggedIn"] = $this->userauthor->IsUserLoggedIn();
+    
+	$this->TPL["UserLoggedIn"] = $this->userauthor->IsUserLoggedIn();
   }
   public function index()
 	{
-				
-				
-        $this->TPL['uploadsuccess'] = false;
+		if(!$this->TPL["UserLoggedIn"])
+		{
+			$homepage = base_url();
+			$this->userauthor->Redirect($homepage);
+		}
+		else
+		{
+			$this->TPL['uploadsuccess'] = false;
 			$this->template->show('upload', $this->TPL);
+		}	
 	}
 
 	public function newFile(){
