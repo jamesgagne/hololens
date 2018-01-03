@@ -119,6 +119,7 @@ console.log($('#'+element+'description').val());
                     var newID = arr.newModelID;
                     var form_data = new FormData();
                     file_data = $('#'+element+"thumbFile").prop('files')[0];
+                    form_data.append('model_id', newID);
                     form_data.append("thumb",file_data);
                     $.ajax({
                         url: 'Upload/addThumb', // point to server-side PHP script 

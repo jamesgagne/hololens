@@ -140,11 +140,11 @@ class Upload extends CI_Controller {
       move_uploaded_file($src,$destination);
       $savePath = assetUrl() . "models/thumbs/".$_FILES['thumb']['name'];
       $description = $_FILES['thumb']['name'];
-
+      $model_id = $_POST['model_id'];
       $picture_id = $this->UploadModel->insertImage($description, $savePath);   
       $this->TPL['newPictureID'] = $picture_id;
       $this->TPL['updated'] = $this->UploadModel->updateModelsPicture($model_id, $picture_id);
-      echo ($this->TPL);
+      echo json_encode($this->TPL);
   }
 
 }
