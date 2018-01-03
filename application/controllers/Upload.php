@@ -23,6 +23,8 @@ class Upload extends CI_Controller {
 		else
 		{
 			$this->TPL['uploadsuccess'] = false;
+      $this->TPL['colors'] = $this->UploadModel->getColors();
+      $this->TPL['categories'] = $this->UploadModel->getCategories();
 			$this->template->show('upload', $this->TPL);
 		}	
 	}
@@ -98,11 +100,11 @@ class Upload extends CI_Controller {
       $savePath = assetUrl() . "models/".$_FILES['model']['name'];
       $name = $_FILES['model']['name'];
       $description = $_POST['description'];
-      $size = "";
-      $category_id = 1;
-      $color_id = 1;
-      $thisID = $this->UploadModel->insertModel($name, $description, $savePath);   
-      $this->TPL['uploadsuccess'] = true;
+      
+      $category_id = $_POST['category'];
+      $color_id = $_POST['color'];
+      $thisID = $this->UploadModel->insertModel($name, $description, $savePath, $category_id, $color_id);   
+      $this->TPL['success'] = true;
       $this->TPL['newModelID'] = $thisID;
       //$this->template->show('upload', $this->TPL);    
   
@@ -131,5 +133,19 @@ class Upload extends CI_Controller {
       echo json_encode($this->TPL);       
     
   }
+  public function addThumb(){
+    $src = $_FILES['thumb']['tmp_name'];
+      $destination  = hardImgUrl()."/thumbs/". $_FILES['thumb']['name'];
+
+      move_uploaded_file($src,$destination);
+      $savePath = assetUrl() . "models/thumbs/".$_FILES['thumb']['name'];
+      $description = $_FILES['thumb']['name'];
+
+      $picture_id = $this->UploadModel->insertImage($description, $savePath);   
+      $this->TPL['newPictureID'] = $picture_id;
+      $this->TPL['updated'] = $this->UploadModel->updateModelsPicture($model_id, $picture_id);
+      echo ($this->TPL);
+  }
+
 }
 
