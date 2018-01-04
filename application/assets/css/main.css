@@ -203,3 +203,38 @@ nav {
 	}
 }
 
+#room {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#room th {
+	text-align: left;
+	background-color: #4d738e;
+	color: white;
+	border: 1px solid #ddd;
+	padding: 8px
+}
+
+#room td{
+	border: 1px solid #ddd;
+	padding: 8px;
+}
+
+.updateForm {
+	padding-left: 275px;
+}
+
+.form-group {
+	margin-bottom: 10px;
+}
+
+#submit {
+	margin-left: 478px;
+	margin-bottom: 15px;
+}
+
+#name.form-control, #email.form-control, #phone.form-control, #role.form-control {
+    width: 500px;
+} 
+
