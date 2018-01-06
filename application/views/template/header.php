@@ -42,11 +42,11 @@
 						<li class="pull-left">
 							<form method="GET" action="<?= base_url(); ?>index.php/Catalog">
 								
-								<? foreach((array)$SelectedCategories as $selectedCategory) { ?>
+								<?php foreach((array)$SelectedCategories as $selectedCategory) { ?>
 								
 								<input type="hidden" name="<?= $selectedCategory; ?>" value="true" />
 								
-								<? } ?>
+								<?php } ?>
 							
 								<div class="input-group searchbar">
 									<input type="text" placeholder="Search" class="form-control" name="query" value="<?= $QueryString; ?>" />
@@ -62,37 +62,37 @@
 						<li class="dropdown pull-left login-menu">
 							<a href="<?= base_url(); ?>index.php/Login" class="dropdown-toggle" data-toggle="dropdown">
 							
-								<? if ($UserLoggedIn) { ?>
+								<?php if ($UserLoggedIn) { ?>
 							
 								<span><?= $Email; ?></span>
 								
-								<? } ?>
+								<?php } ?>
 								
-								<? if($UserLoggedIn AND empty($ProfilePicture) == false) { ?>
+								<?php if($UserLoggedIn AND empty($ProfilePicture) == false) { ?>
 								
 								<img style="height: 25px; border-radius: 7px;" src="<?= $ProfilePicture; ?>" />
 								
-								<? } ?>
+								<?php } ?>
 								
-								<? if($UserLoggedIn AND empty($ProfilePicture)) { ?>
+								<?php if($UserLoggedIn AND empty($ProfilePicture)) { ?>
 								
 								<span class="glyphicon glyphicon-user"></span>
 								
-								<? } ?>
+								<?php } ?>
 								
-								<? if(!$UserLoggedIn) { ?>
+								<?php if(!$UserLoggedIn) { ?>
 								
 								<span>Log In</span>
 								<span class="glyphicon glyphicon-user"></span>
 								
-								<? } ?>	
+								<?php } ?>	
 								
 								<span class="caret"></span>
 							</a>
 							
 							<ul class="dropdown-menu" role="menu">
 							
-							<? if($UserLoggedIn) { ?>
+							<?php if($UserLoggedIn) { ?>
 							
 								<div class="col-xs-5 col-xs-offset-1">
 									<a href="<?= base_url(); ?>">
@@ -106,9 +106,9 @@
 									</a>
 								</div>
 								
-							<? } ?>
+							<?php } ?>
 							
-							<? if(!$UserLoggedIn) { ?>
+							<?php if(!$UserLoggedIn) { ?>
 							
 								<div class="col-xs-12">
 									<div class="text-center">
@@ -156,7 +156,7 @@
 									</form>
 								</div>
 								
-							<? } ?>
+							<?php } ?>
 							
 							</ul>
 						</li>
@@ -178,11 +178,11 @@
 					<ul class="nav navbar-nav navbar-left">
 						<li><a href="<?= base_url(); ?>">Catalog</a></li>
 						
-						<? if($UserLoggedIn) { ?>
+						<?php if($UserLoggedIn) { ?>
 						
 						<li><a href="<?= base_url() . "index.php/Upload"; ?>">Upload</a></li>
 						
-						<? } ?>
+						<?php } ?>
 						
 					</ul>
 				</div>

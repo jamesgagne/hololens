@@ -8,7 +8,7 @@ class Upload extends CI_Controller {
   public function __construct()
   {
     parent::__construct();
-
+    ini_set('upload_max_filesize', '20M');
     $this->load->model('UploadModel');
     
 	$this->TPL["UserLoggedIn"] = $this->userauthor->IsUserLoggedIn();
@@ -71,8 +71,13 @@ class Upload extends CI_Controller {
       $src = $_FILES['fbx']['tmp_name'];
       $destination  = hardImgUrl(). $_FILES['fbx']['name'];
 
-      move_uploaded_file($src,$destination);
-		  $savePath = assetUrl() . "models/".$_FILES['fbx']['name'];
+      $moved = move_uploaded_file($src,$destination);
+      if( $moved ) {
+        echo "Successfully uploaded";         
+      } else {
+        echo "Not uploaded because of error #".$_FILES["fbx"]["error"];
+      }
+		  /*$savePath = assetUrl() . "models/".$_FILES['fbx']['name'];
       $name = $_FILES['fbx']['name'];
       $description = "";
       $size = "";
@@ -80,7 +85,7 @@ class Upload extends CI_Controller {
       $color_id = 1;
       $this->UploadModel->insertFile($name, $description, $savePath,$size,$category_id, $color_id); 	
       $this->TPL['uploadsuccess'] = true;
-      $this->template->show('upload', $this->TPL);		
+      $this->template->show('upload', $this->TPL);	*/	
   }
     
   function extension($path) { 

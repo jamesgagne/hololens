@@ -57,7 +57,7 @@
 			 <th>D</th>
 			 <th>U</th>
 		   </tr>
-		  <? foreach ($listing as $row) { ?>
+		  <?php foreach ($listing as $row) { ?>
 		   <tr>
 		   <td><?= $row['user_id']?></td>
 		   <td><?= $row['name']?></td>
@@ -66,7 +66,7 @@
 		   <td><a href="<?= base_url() ?>index.php/Admin/delete/<?= $row['user_id']?>">D</a></td>
 		   <td><a href="<?= base_url() ?>index.php/Admin/update/<?= $row['user_id']?>">U</a></td>
 		   </tr>
-		  <? } ?>
+		  <?php } ?>
 		</table>
 	</div>
 </div>

@@ -1,26 +1,26 @@
 							<title>Login</title>
 
-							<? if(isset($errorList) AND count($errorList) > 0) { ?>
+							<?php if(isset($errorList) AND count($errorList) > 0) { ?>
 							
 							<div class="row">
 								<div class="col-xs-8 col-centered">
 									<ul class="alert alert-danger fade in" style="padding: 20px 20px 20px 40px;">
 									
-									<? if(isset($errorList)) { ?>
+									<?php if(isset($errorList)) { ?>
 									
-										<? foreach($errorList as $error) { ?>
+										<?php foreach($errorList as $error) { ?>
 										
 										<li><strong><?= $error; ?></strong></li>
 										
-										<? } ?>
+										<?php } ?>
 										
-									<? } ?>
+									<?php } ?>
 									
 									</ul>								
 								</div>
 							</div>
 							
-							<? } ?>
+							<?php } ?>
 							
 							<div class="row">
 								<div class="col-xs-5 col-lg-3 col-centered">

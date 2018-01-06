@@ -23,7 +23,7 @@ fieldset{
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+<?= ini_get("upload_max_filesize");?>
 <div id="drop_zone" ondrop="drag_drop(event)" ondragover="return false"><div id="makeSelection">Drag And Drop or<br /><input style="border: 2px dashed #999;" type='file' multiple="true" onchange="changedFileUpload(event)" id="your-files" /></div></div>
 <form id="files" enctype ='multipart/form-data' method="post">
   <br />
@@ -143,7 +143,6 @@ console.log($('#'+element+'description').val());
 
     });
    });
-   //location.reload();
        
 });
 function getType(str) {

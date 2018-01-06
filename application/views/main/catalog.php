@@ -1,15 +1,14 @@
 							
-							<title>Catalog</title>
-														
+							<title>Catalog</title>				
 							<div class="row">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 text-center">
 									<form method="GET" action="<?= base_url(); ?>index.php/Catalog">
 										
-										<? if(!empty($QueryString)) { ?>
+										<?php if(!empty($QueryString)) { ?>
 										
 										<input type="hidden" name="query" value="<?= $QueryString; ?>" />
 										
-										<? } ?>
+										<?php } ?>
 										
 										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-12">
 										
@@ -17,16 +16,16 @@
 												<span class="h3">Filter by Category</span>
 											</div>
 											
-											<? foreach($Categories as $category) { ?>
+											<?php foreach($Categories as $category) { ?>
 											
 											<div class="row">
 												<label class="checkbox">
-													<input <? if(count($SelectedCategories) > 0 AND in_array($category["name"], $SelectedCategories)) echo "checked"; ?> type="checkbox" name="<?= $category["name"]; ?>" value="true" />
+													<input <?php if(count($SelectedCategories) > 0 AND in_array($category["name"], $SelectedCategories)) echo "checked"; ?> type="checkbox" name="<?= $category["name"]; ?>" value="true" />
 													<span><?= $category["name"]; ?></span>
 												</label>
 											</div>
 											
-											<? } ?>
+											<?php } ?>
 											
 										</div>
 										
@@ -44,11 +43,11 @@
 													
 														<option value="All">All</option>
 													
-														<? foreach($Colors as $color) { ?>
+														<?php foreach($Colors as $color) { ?>
 													
-														<option <? if($SelectedColor == $color["name"]) echo "selected"; ?> value="<?= $color["name"] ?>"><?= $color["name"]; ?></option>
+														<option <?php if($SelectedColor == $color["name"]) echo "selected"; ?> value="<?= $color["name"] ?>"><?= $color["name"]; ?></option>
 														
-														<? } ?>
+														<?php } ?>
 														
 													</select>
 												</label>
@@ -69,17 +68,17 @@
 										
 										<input type="hidden" id="base_url" value="<?= base_url(); ?>" />
 										
-										<? if($UserLoggedIn) { ?>
+										<?php if($UserLoggedIn) { ?>
 										
 										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Add To Workspace" data-toggle="modal" data-target="#addModal" id="addButton" />
 										
-										<? } ?>
+										<?php } ?>
 										
-										<? if($AccessLevel == "Admin") { ?>
+										<?php if($AccessLevel == "Admin") { ?>
 										
 										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Delete" data-toggle="modal" data-target="#deleteModal" id="deleteButton" />
 										
-										<? } ?>
+										<?php } ?>
 										
 										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Download" id="downloadButton" />
 									</div>
@@ -88,7 +87,7 @@
 								
 									<div class="row" id="models">
 									
-										<? foreach($Models as $model) { ?>
+										<?php foreach($Models as $model) { ?>
 									
 										<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3" style="padding: 10px;">
 											<label class="thumbnail file_tile">
@@ -98,13 +97,13 @@
 											</label>
 										</div>	
 										
-										<? } ?>
+										<?php } ?>
 
 									</div>
 								</div>
 							</div>
 							
-							<? if($UserLoggedIn) { ?>
+							<?php if($UserLoggedIn) { ?>
 							
 							<!-- Add Modal -->
 							<div class="modal fade" id="addModal">
@@ -121,11 +120,11 @@
 											<label for="spaceID">My Workspace(s)</label>
 											<select id="spaceID" class="form-control">
 												
-												<? foreach($Spaces as $space) { ?>
+												<?php foreach($Spaces as $space) { ?>
 												
 												<option value="<?= $space["space_id"]; ?>"><?= $space["name"]; ?></option>
 												
-												<? } ?>
+												<?php } ?>
 												
 											</select>
 										</div>
@@ -138,9 +137,9 @@
 								</div>
 							</div>
 							
-							<? } ?>
+							<?php } ?>
 							
-							<? if($AccessLevel == "Admin") { ?>
+							<?php if($AccessLevel == "Admin") { ?>
 							
 							<!-- Delete Modal -->
 							<div class="modal fade" id="deleteModal">
@@ -163,4 +162,4 @@
 								</div>
 							</div>
 							
-							<? } ?>
+							<?php } ?>

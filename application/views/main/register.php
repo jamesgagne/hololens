@@ -3,29 +3,29 @@
 							
 							<form method="POST" action="<?= base_url(); ?>index.php/Register" enctype="multipart/form-data">
 							
-							<? if(isset($errorList) AND count($errorList) > 0) { ?>
+							<?php if(isset($errorList) AND count($errorList) > 0) { ?>
 							
 							<div class="row">
 								<div class="col-xs-8 col-centered">
 									<ul class="alert alert-danger fade in" style="padding: 20px 20px 20px 40px;">
 									
-									<? if(isset($errorList)) { ?>
+									<?php if(isset($errorList)) { ?>
 									
-										<? foreach($errorList as $error) { ?>
+										<?php foreach($errorList as $error) { ?>
 										
 										<li><strong><?= $error; ?></strong></li>
 										
-										<? } ?>
+										<?php } ?>
 										
-									<? } ?>
+									<?php } ?>
 									
 									</ul>								
 								</div>
 							</div>
 							
-							<? } ?>
+							<?php } ?>
 								
-								<? if(isset($success)) { ?>
+								<?php if(isset($success)) { ?>
 								<div class="row">
 									<div class="col-xs-8 col-centered">
 										<ul class="alert alert-success fade in" style="padding: 20px 20px 20px 40px;">
@@ -33,7 +33,7 @@
 										</ul>
 									</div>
 								</div>
-								<? } ?>
+								<?php } ?>
 							
 								<div class="row">
 									<div class="col-sm-6 col-md-4">
@@ -44,22 +44,22 @@
 												
 										<div class="form-group">
 											<label for="register-email">Email</label>
-											<input type="email" class="form-control" id="register-email" name="register-email" placeholder="Email" value="<? if(isset($email)) echo $email; ?>" required />
+											<input type="email" class="form-control" id="register-email" name="register-email" placeholder="Email" value="<?php if(isset($email)) echo $email; ?>" required />
 										</div>
 													
 										<div class="form-group">
 											<label for="confirm-email">Confirm Email</label>
-											<input type="email" class="form-control" id="confirm-email" name="confirm-email" placeholder="Re-enter Email" value="<? if(isset($confirm_email)) echo $confirm_email; ?>" required />
+											<input type="email" class="form-control" id="confirm-email" name="confirm-email" placeholder="Re-enter Email" value="<?php if(isset($confirm_email)) echo $confirm_email; ?>" required />
 										</div>
 												
 										<div class="form-group">
 											<label for="register-password">Password</label>
-											<input type="password" class="form-control" id="register-password" name="register-password" placeholder="Password" value="<? if(isset($password)) echo $password; ?>" required />
+											<input type="password" class="form-control" id="register-password" name="register-password" placeholder="Password" value="<?php if(isset($password)) echo $password; ?>" required />
 										</div>
 													
 										<div class="form-group">
 											<label for="confirm-password">Confirm Password</label>
-											<input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="Re-enter Password" value="<? if(isset($confirm_password)) echo $confirm_password; ?>" required />
+											<input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="Re-enter Password" value="<?php if(isset($confirm_password)) echo $confirm_password; ?>" required />
 										</div>
 
 										<div class="form-group">
@@ -79,12 +79,12 @@
 
 										<div class="form-group">
 											<label for="first-name">First Name</label>
-											<input type="text" class="form-control" id="first-name" name="first-name" placeholder="First Name" value="<? if(isset($first_name)) echo $first_name; ?>" />
+											<input type="text" class="form-control" id="first-name" name="first-name" placeholder="First Name" value="<?php if(isset($first_name)) echo $first_name; ?>" />
 										</div>
 													
 										<div class="form-group">
 											<label for="last-name">Last Name</label>
-											<input type="text" class="form-control" id="last-name" name="last-name" placeholder="Last Name" value="<? if(isset($last_name)) echo $last_name; ?>" />
+											<input type="text" class="form-control" id="last-name" name="last-name" placeholder="Last Name" value="<?php if(isset($last_name)) echo $last_name; ?>" />
 										</div>
 										
 										<br>
@@ -100,15 +100,15 @@
 											<label for="security-question">Security Question</label>
 											<select class="form-control" id="security-question" name="security-question" required>
 											
-												<? foreach($security_Questions as $question) { ?>
+												<?php foreach($security_Questions as $question) { ?>
 												<option value="<?= $question["security_question_id"]; ?>"><?= $question["question"]; ?></option>
-												<? } ?>
+												<?php } ?>
 											</select>
 										</div>
 													
 										<div class="form-group">
 											<label for="answer">* Answer</label>
-											<input class="form-control" type="password" id="answer" name="answer" value="<? if(isset($answer)) echo $answer; ?>" required />
+											<input class="form-control" type="password" id="answer" name="answer" value="<?php if(isset($answer)) echo $answer; ?>" required />
 										</div>
 									</div>
 								</div>
