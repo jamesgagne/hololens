@@ -118,7 +118,7 @@
 									<form action="<?= base_url(); ?>index.php/Login" method="POST">
 										<div class="form-group">
 											<label for="email">Email</label>
-											<input type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off">
+											<input type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off" style="width:100%">
 										</div>
 
 										<div class="form-group">
