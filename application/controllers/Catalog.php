@@ -105,7 +105,7 @@
 				// when both color and category(s) are selected
 				if((!empty($color) AND $color != "All") AND (count($categories) > 0)) 
 				{
-					$this->db->select("m.model_id, m.name, m.description, m.location, co.name, ca.name, p.link");
+					$this->db->select("m.model_id, m.name, m.location, p.link");
 					$this->db->from("hl_models as m");
 					$this->db->join("hl_pictures as p", "m.picture_id = p.picture_id", "left");
 					$this->db->join("hl_colors as co", "m.color_id = co.color_id");
@@ -116,7 +116,7 @@
 				// when only a color is selected
 				else if(!empty($color) && $color != "All")
 				{
-					$this->db->select("m.model_id, m.name, m.description, m.location, co.name, p.link");
+					$this->db->select("m.model_id, m.name, m.location, p.link");
 					$this->db->from("hl_models as m");
 					$this->db->join("hl_pictures as p", "m.picture_id = p.picture_id", "left");
 					$this->db->join("hl_colors as co", "m.color_id = co.color_id");		
@@ -125,7 +125,7 @@
 				// when only category(s) are selected
 				else if(count($categories) > 0)
 				{
-					$this->db->select("m.model_id, m.name, m.description, m.location, ca.name, p.link");
+					$this->db->select("m.model_id, m.name, m.location, p.link");
 					$this->db->from("hl_models as m");
 					$this->db->join("hl_pictures as p", "m.picture_id = p.picture_id", "left");
 					$this->db->join("hl_categories as ca", "m.category_id = ca.category_id");			
@@ -134,7 +134,7 @@
 				// otherwise get everything
 				else
 				{
-					$this->db->select("m.model_id, m.name, m.description, m.location, p.link");
+					$this->db->select("m.model_id, m.name, m.location, p.link");
 					$this->db->from("hl_models as m");
 					$this->db->join("hl_pictures as p", "m.picture_id = p.picture_id", "left");
 				}
@@ -154,7 +154,7 @@
 			}
 			else
 			{
-				$this->db->select("m.model_id, m.name, m.description, m.location, p.link");
+				$this->db->select("m.model_id, m.name, m.location, p.link");
 				$this->db->from("hl_models as m");
 				$this->db->join("hl_pictures as p", "m.picture_id = p.picture_id", "left");
 				$query = $this->db->get();
