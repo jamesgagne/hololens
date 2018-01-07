@@ -1,6 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-
 // application/helpers/asset_helper.php 
 if (!function_exists('assetUrl'))
 {
@@ -24,6 +23,15 @@ if (!function_exists('hardImgUrl')){
         $CI =& get_instance();
         //return  "/home/student/000328298/public_html/private/hololens/application/assets/img/";
         return $CI->config->item('imgPath'); 
-
      }
+}
+
+if (!function_exists('profilePicturePath'))
+{
+    function profilePicturePath()
+    {
+        $CI =& get_instance();
+
+        return $CI->config->item('profilePicturePath');
+    }
 }

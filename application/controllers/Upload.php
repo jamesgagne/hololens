@@ -22,9 +22,16 @@ class Upload extends CI_Controller {
 		}
 		else
 		{
+			$email = $this->userauthor->GetEmail();
+				
+			$this->TPL["Email"] = $email;
+			$this->TPL["AccessLevel"] = $this->userauthor->GetAccessLevel($email);
+			$this->TPL["ProfilePicture"] = $this->userauthor->GetProfilePicture($email);
+			$this->TPL["Spaces"] = $this->GetWorkSpaces($email);
+			
 			$this->TPL['uploadsuccess'] = false;
-      $this->TPL['colors'] = $this->UploadModel->getColors();
-      $this->TPL['categories'] = $this->UploadModel->getCategories();
+			$this->TPL['colors'] = $this->UploadModel->getColors();
+			$this->TPL['categories'] = $this->UploadModel->getCategories();
 			$this->template->show('upload', $this->TPL);
 		}	
 	}

@@ -62,11 +62,7 @@
 						
 						$picture["name"] = $picture_ID . $picture_Ext;
 						
-						// string manipulation stuff to get releative file directory path so that it should work on everyones csunix
-						$startIndex = strpos(assetUrl(), "~") + 1;
-						$endIndex = strpos(assetUrl(), "/private");
-						
-						$target_dir = "/home/student/" . substr(assetUrl(), $startIndex, ($endIndex - $startIndex)) . "/public_html" . substr(assetUrl(), strpos(assetUrl(), "/private/")) . "img/profile/" . $picture["name"];
+						$target_dir = profilePicturePath();
 						$picture_link = assetUrl() . "img/profile/" . $picture["name"];
 						
 						if (move_uploaded_file($picture["tmp_name"], $target_dir)) 

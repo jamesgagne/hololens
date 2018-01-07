@@ -1,11 +1,5 @@
 unzip config.zip to applicatio directory
 
-config.php 
-
--> set $config['base_url'] = "https://csunix.mohawkcollege.ca/~{yourStudentID}/private/hololens/"
--> set $config['assetsPath'] = "application/assets/";
--> set $config['imgPath'] = "/home/student/{yourStudentID}/public_html/private/hololens/application/assets/models/";
-
 database.php
 
 -> set $db['default']['username'] = {yourStudentID}
@@ -16,5 +10,10 @@ asset.php
 
 -> set $config['assetsPath'] = "application/assets/";
 -> set $config['imgPath'] = "/home/student/{yourStudentID}/public_html/private/hololens/application/assets/img/";
+-> set $config["profilePicturePath"] = "/home/student/{yourStudentID}/public_html/private/hololens/application/assets/img/profile/";
 
 anyone who changes anything in the config directory please update this document!!!!!!
+
+
+* NOTE * You no longer need to modify the config.php file as I have autoloaded the asset.php file properly now.
+- Tate

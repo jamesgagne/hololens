@@ -31,7 +31,8 @@
 			$this->template->show('catalog', $this->TPL);
 		}
 		
-		public function DeleteModel() {
+		public function DeleteModel()
+		{
 			$model_id = $this->input->post("model_id");
 			
 			$this->db->delete("hl_models", array("model_id" => $model_id));
@@ -49,7 +50,8 @@
 			}
 		}
 		
-		public function AddModelToWorkspace() {
+		public function AddModelToWorkspace() 
+		{
 			$space_id = $this->input->post("space_id");
 			$model_id = $this->input->post("model_id");
 			
