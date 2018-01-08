@@ -4,7 +4,7 @@
 								
 									<? if(isset($Error)) { ?>
 									
-									<div class="row text-center" style="color: red;">
+									<div class="alert alert-danger fade in" style="padding: 20px 20px 20px 40px;">
 										<p><?= $Error; ?></p>
 									</div>
 									
@@ -17,15 +17,15 @@
 									<br>
 
 									<div class="row text-center">
-										<span class="h4">Step 1: Please enter your account username.</span>
+										<span class="h4">Step 1: Please enter your account email.</span>
 									</div>
 
 									<br>
 									
 									<form action="<?= base_url(); ?>index.php/Reset" method="POST">
 										<div class="row form-group">
-											<label for="username-reset">Username</label>
-											<input required type="text" name="username-reset" id="username-reset" class="form-control" placeholder="Username" />
+											<label for="email-reset">Email</label>
+											<input required type="email" name="email-reset" id="email-reset" class="form-control" placeholder="Email" />
 										</div>
 
 										<div class="row form-group">				

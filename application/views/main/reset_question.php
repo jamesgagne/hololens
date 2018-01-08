@@ -4,7 +4,7 @@
 								
 									<? if(isset($Error)) { ?>
 									
-									<div class="row text-center" style="color: red;">
+									<div class="alert alert-danger fade in" style="padding: 20px 20px 20px 40px;">
 										<p><?= $Error; ?></p>
 									</div>
 									
@@ -23,7 +23,7 @@
 									<br>
 									
 									<form action="<?= base_url(); ?>index.php/Reset" method="POST">
-										<input type="hidden" name="username-reset" value="<?= $Username; ?>" />
+										<input type="hidden" name="email-reset" value="<?= $Email; ?>" />
 										<input type="hidden" name="question" value="<?= $Question; ?>" />
 									
 										<div class="row form-group">
@@ -33,7 +33,7 @@
 									
 										<div class="row form-group">
 											<label for="answer">Answer</label>
-											<input required type="text" name="answer" id="answer" class="form-control" placeholder="Answer" />
+											<input required type="password" name="answer" id="answer" class="form-control" placeholder="Answer" />
 										</div>
 
 										<div class="row form-group">				

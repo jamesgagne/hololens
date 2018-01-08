@@ -128,6 +128,7 @@
 			$email = $this->input->post("email");
 			$level = $this->input->post("accessLevel");
 			
+			$this->db->where("user_id", $id);
 			$this->db->update("hl_users", array("first_name" => $first, "last_name" => $last, "email" => $email, "access_level_id" => $accessLevel));
 
 			$adminPage = base_url() . "index.php/Admin";	

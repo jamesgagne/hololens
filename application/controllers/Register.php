@@ -85,7 +85,9 @@
 								"first_name" => $first_name,
 								"last_name" => $last_name,
 								"access_level_id" => $memberAccessLevelID,
-								"picture_id" => $picture_id
+								"picture_id" => $picture_id,
+								"security_question_id" => $security_question,
+								"security_question_answer" => $answer
 							);
 					
 							$this->db->insert("hl_users", $values);
@@ -106,7 +108,9 @@
 							"enckey" => password_hash($password, PASSWORD_BCRYPT),
 							"first_name" => $first_name,
 							"last_name" => $last_name,
-							"access_level_id" => $memberAccessLevelID
+							"access_level_id" => $memberAccessLevelID,
+							"security_question_id" => $security_question,
+							"security_question_answer" => $answer
 						);
 						
 						$query = $this->db->insert("hl_users", $values);

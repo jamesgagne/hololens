@@ -10,22 +10,22 @@
 			parent::__construct();
 			
 			$this->TPL["UserLoggedIn"] = $this->userauthor->IsUserLoggedIn();
+			
+			if($this->TPL["UserLoggedIn"])
+			{
+				$email = $this->userauthor->GetEmail();
+				
+				$this->TPL["Email"] = $email;
+				$this->TPL["AccessLevel"] = $this->userauthor->GetAccessLevel($email);
+				$this->TPL["ProfilePicture"] = $this->userauthor->GetProfilePicture($email);
+			}
 		}
 
 		public function index()
-		{		
-			if($this->TPL["UserLoggedIn"])
-			{
-				$username = $this->userauthor->GetUsername();
-				
-				$this->TPL["Username"] = $username;
-				$this->TPL["PrivilegeLevel"] = $this->userauthor->GetPrivilegeLevel($username);
-				$this->TPL["ProfilePicture"] = $this->userauthor->GetProfilePicture($username);
-			}
-			
+		{
 			if(count($_POST) > 0)
 			{
-				$username = $_POST["username-reset"];
+				$email = $_POST["email-reset"];
 				
 				if(isset($_POST["password-reset"]) AND isset($_POST["confirm-password-reset"]))
 				{
@@ -36,27 +36,27 @@
 					{
 						$this->TPL["Error"] = "Password cannot be empty!";
 						
-						$this->template->show("reset_password", 'faq', $this->TPL);
+						$this->template->show("reset_password", $this->TPL);
 					}
 					else
 					{
 						if($password == $confirm_password)
-						{							
-							//$stmt = "UPDATE Account " . 
-							//			"SET Password = ? " .
-							//			"WHERE Username = ?;";
-							
-							$query = $this->db->query($stmt, array(password_hash($password, PASSWORD_BCRYPT), $username));
+						{
+							if(!empty($email))
+							{
+								$this->db->where("email", $email);
+								$this->db->update("hl_users", array("enckey" => password_hash($password, PASSWORD_BCRYPT)));
+							}
 							
 							$this->TPL["Success"] = "Password changed successfully! You can now login using your new password!";
 							
-							$this->template->show("reset_password", 'faq', $this->TPL);
+							$this->template->show("reset_password", $this->TPL);
 						}
 						else
 						{
 							$this->TPL["Error"] = "Passwords do not match!";
 							
-							$this->template->show("reset_password", 'faq', $this->TPL);
+							$this->template->show("reset_password", $this->TPL);
 						}
 					}
 				}
@@ -68,65 +68,56 @@
 					{
 						$this->TPL["Error"] = "You must enter your security question answer!";
 						$this->TPL["Question"] = $_POST["question"];
-						$this->TPL["Username"] = $username;
+						$this->TPL["Email"] = $email;
 						
-						$this->template->show("reset_question", 'faq', $this->TPL);
+						$this->template->show("reset_question", $this->TPL);
 					}
 					else
-					{
-						//$stmt = "SELECT Security_Question_Answer " . 
-						//			"FROM Account " .
-						//			"WHERE Username = ?;";
-									
-						$query = $this->db->query($stmt, array($username));
-						$result = $query->result_array()[0];
-
-						if($answer == $result["Security_Question_Answer"])
+					{						
+						$this->db->select("*");
+						$this->db->from("hl_users as u");
+						$this->db->join("hl_security_questions as sq", "u.security_question_id = sq.security_question_id", "left");
+						$this->db->where("u.email", $email);
+						$result = $this->db->get()->result_array()[0];
+						
+						if($answer == $result["security_question_answer"])
 						{
-							$this->TPL["Username"] = $username;
+							$this->TPL["Email"] = $email;
 							
-							$this->template->show("reset_password", 'faq', $this->TPL);
+							$this->template->show("reset_password", $this->TPL);
 						}
 						else
-						{
+						{							
 							$this->TPL["Error"] = "Your answer does not match!";
 							$this->TPL["Question"] = $_POST["question"];
-							$this->TPL["Username"] = $username;
+							$this->TPL["Email"] = $email;
 							
-							$this->template->show("reset_question", 'faq', $this->TPL);
+							$this->template->show("reset_question", $this->TPL);
 						}
 					}
 				}
 				else
 				{
-					if(empty($username))
+					if(empty($email))
 					{
-						$this->TPL["Error"] = "You must enter your username!";
+						$this->TPL["Error"] = "You must enter your email!";
 						
-						$this->template->show("reset", 'faq', $this->TPL);
+						$this->template->show("reset", $this->TPL);
 					}
 					else
 					{
-						//$stmt = "SELECT * " . 
-						//			"FROM Account " .
-						//			"WHERE Username = ?;";
-						//
-						
-						$query = $this->db->query($stmt, array($username));
-						$result = $query->result_array();
+						$result = $this->db->get_where("hl_users", array("email" => $email))->result_array();
 						
 						if(count($result) == 1)
-						{		
-							//$stmt = "SELECT Question " . 
-							//			"FROM Account as a " .
-							//			"JOIN Security_Question as s ON a.Security_Question_ID = s.Security_Question_ID " .
-							//			"WHERE Username = ?;";
-										
-							$query = $this->db->query($stmt, array($username));
-							$result = $query->result_array();
+						{									
+							$this->db->select("*");
+							$this->db->from("hl_users as u");
+							$this->db->join("hl_security_questions as sq", "u.security_question_id = sq.security_question_id", "left");
+							$this->db->where("email", $email);
+							$result = $this->db->get()->result_array()[0];
 							
-							$this->TPL["Question"] = $result[0]["Question"];
-							$this->TPL["Username"] = $username;
+							$this->TPL["Question"] = $result["question"];
+							$this->TPL["Email"] = $email;
 							
 							$this->template->show("reset_question", $this->TPL);
 						}
