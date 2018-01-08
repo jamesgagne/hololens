@@ -95,7 +95,7 @@
 							<?php if($UserLoggedIn) { ?>
 							
 								<div class="col-xs-5 col-xs-offset-1">
-									<a href="<?= base_url(); ?>">
+									<a href="<?= base_url(); ?>index.php/Profile">
 										<button class="btn btn-primary">My Profile</button>
 									</a>
 								</div>
