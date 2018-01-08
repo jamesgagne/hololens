@@ -13,30 +13,30 @@
 <?php echo form_open(base_url() . 'index.php/Admin/updateentry/' . $entry['user_id'], array("class" => "form-horizontal")) ?>
 <fieldset style = "display: inline-block;">
   <!-- Text input-->
-  <div class="form-group updateForm">
+  <div class="form-group updateForm adminpage">
 	<label class="col-sm-4 control-label" for="textinput">Name</label>
 	<div class="col-sm-4">
-	  <input type="text" maxlength = "35" placeholder="Name" class="form-control" name = "name" id = "name" value = "<?=$entry['name']?>">
+	  <input type="text" maxlength = "35" placeholder="Name" class="form-control" name = "name" id = "nameAdmin" value = "<?=$entry['name']?>">
 	</div>
   </div>
 
   <!-- Text input-->
-  <div class="form-group updateForm">
+  <div class="form-group updateForm adminpage">
 	<label class="col-sm-4 control-label" for="textinput">Email</label>
 	<div class="col-sm-4">
-	  <input type="email" placeholder="Email" class="form-control" id = "email" name = "email" value = "<?=$entry['email']?>">
+	  <input type="email" placeholder="Email" class="form-control" id = "emailAdmin" name = "email" value = "<?=$entry['email']?>">
 	</div>
   </div>
 
   <!-- Text input-->
-  <div class="form-group updateForm">
+  <div class="form-group updateForm adminpage">
 	<label class="col-sm-4 control-label" for="textinput">Role</label>
 	<div class="col-sm-4">
 	  <input type="number" max = "1" min = "0" class="form-control" id = "role" name = "role" value = "<?=$entry['access_level_id']?>">
 	</div>
   </div>
 
-  <input type="submit" id ='submit' class="btn btn-primary" value="Update User">
+  <input type="submit" id ='submitAdmin' class="btn btn-primary" value="Update User">
 </fieldset>
 <?php echo form_close() ?>
 <?php } ?>
@@ -46,6 +46,12 @@
 		</button>
 		<button style="float:right; margin-right: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSpace">
 		  Add Space
+		</button>
+		<button style="float:right; margin-right: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcolorModal">
+		  Add Color
+		</button>
+		<button style="float:right; margin-right: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCategory">
+		  Add Category
 		</button>
 
 		<table id = "room">
@@ -57,7 +63,7 @@
 			 <th>D</th>
 			 <th>U</th>
 		   </tr>
-		  <?php foreach ($listing as $row) { ?>
+		  <? foreach ($listing as $row) { ?>
 		   <tr>
 		   <td><?= $row['user_id']?></td>
 		   <td><?= $row['name']?></td>
@@ -66,7 +72,7 @@
 		   <td><a href="<?= base_url() ?>index.php/Admin/delete/<?= $row['user_id']?>">D</a></td>
 		   <td><a href="<?= base_url() ?>index.php/Admin/update/<?= $row['user_id']?>">U</a></td>
 		   </tr>
-		  <?php } ?>
+		  <? } ?>
 		</table>
 	</div>
 </div>
@@ -82,7 +88,7 @@
       <?php echo form_open(base_url() . 'index.php/Admin/add_user', array("class" => "form-horizontal")) ?>
       <fieldset>
           <!-- Text input-->
-          <div class="form-group">
+          <div class="form-group adminpage">
             <label class="col-sm-2 control-label" for="textinput">Name</label>
             <div class="col-sm-10">
               <input type="text" maxlength = "35" placeholder="Name" class="form-control" name = "nameModal" id = "nameModal">
@@ -90,7 +96,7 @@
           </div>
 
           <!-- Text input-->
-          <div class="form-group">
+          <div class="form-group adminpage">
             <label class="col-sm-2 control-label" for="textinput">Email</label>
             <div class="col-sm-10">
               <input type="text" placeholder="Email" class="form-control" id = "emailModal" name = "emailModal">
@@ -98,7 +104,7 @@
           </div>
 
            <!-- Text input-->
-          <div class="form-group">
+          <div class="form-group adminpage">
             <label class="col-sm-2 control-label" for="textinput">Password</label>
             <div class="col-sm-10">
               <input type="text" placeholder="Password" class="form-control" id = "passwordModal" name = "passwordModal">
@@ -106,7 +112,7 @@
           </div>
 
            <!-- Text input-->
-          <div class="form-group">
+          <div class="form-group adminpage">
             <label class="col-sm-2 control-label" for="textinput">Role</label>
             <div class="col-sm-10">
               <input type="number" placeholder="Role" max = "1" min = "0" class="form-control" id = "roleModal" name = "roleModal">
@@ -118,6 +124,62 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <input type="submit" class="btn btn-primary" value="Add User ">
+        <?php echo form_close() ?>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addcolorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Color</h4>
+      </div>
+      <div class="modal-body">
+      <?php echo form_open(base_url() . 'index.php/Admin/add_color', array("class" => "form-horizontal")) ?>
+      <fieldset>
+          <!-- Text input-->
+          <div class="form-group adminpage">
+            <label class="col-sm-2 control-label" for="textinput">Color</label>
+            <div class="col-sm-10">
+              <input type="text" maxlength = "30" placeholder="Color" class="form-control" name = "colorModal" id = "colorModal">
+            </div>
+          </div>
+      </div>
+        </fieldset>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Add Color ">
+        <?php echo form_close() ?>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addCategory" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Category</h4>
+      </div>
+      <div class="modal-body">
+      <?php echo form_open(base_url() . 'index.php/Admin/add_category', array("class" => "form-horizontal")) ?>
+      <fieldset>
+          <!-- Text input-->
+          <div class="form-group adminpage">
+            <label class="col-sm-2 control-label" for="textinput">Category</label>
+            <div class="col-sm-10">
+              <input type="text" maxlength = "30" placeholder="Category" class="form-control" name = "categoryModal" id = "categoryModal">
+            </div>
+          </div>
+      </div>
+        </fieldset>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Add Category ">
         <?php echo form_close() ?>
       </div>
     </div>
@@ -146,14 +208,14 @@
           </select>
 			
           <!-- Text input-->
-          <div class="form-group">
+          <div class="form-group adminpage">
             <label class="col-sm-2 control-label" for="textinput">Space Name</label>
             <div class="col-sm-10">
               <input type="text" maxlength = "35" placeholder="Name" class="form-control" name = "nameSpace" id = "nameSpace" required>
             </div>
           </div>
 		  
-		  <div class="form-group">
+		  <div class="form-group adminpage">
 			<label class="col-sm-2 control-label" for="textinput">Description</label>
 			<div class="col-sm-10">
 				<textarea rows="4" cols="50" id="descriptionSpace" name="descriptionSpace"></textarea>

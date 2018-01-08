@@ -225,16 +225,16 @@ nav {
 	padding-left: 275px;
 }
 
-.form-group {
+.adminpage {
 	margin-bottom: 10px;
 }
 
-#submit {
+#submitAdmin {
 	margin-left: 478px;
 	margin-bottom: 15px;
 }
 
-#name.form-control, #email.form-control, #phone.form-control, #role.form-control {
+#nameAdmin.form-control, #emailAdmin.form-control, #roleAdmin.form-control {
     width: 500px;
 } 
 

@@ -1,171 +1,115 @@
+<?php
+	defined('BASEPATH') OR exit('No direct script access allowed');
 
-<title>Administration</title>
-							
-<div class="x_panel">
-<div class="x_title">
-	<h2>Student Management</h2>
-	<ul class="nav navbar-right panel_toolbox">
-	  <li><a data-toggle="modal" href="#addModal"><i class="fa fa-plus"></i></a>
-	  </li>
-	</ul>
-</div>
-<?php if (isset($update)) { ?>
-<?php echo form_open(base_url() . 'index.php/Admin/updateentry/' . $entry['user_id'], array("class" => "form-horizontal")) ?>
-<fieldset style = "display: inline-block;">
-  <!-- Text input-->
-  <div class="form-group updateForm">
-	<label class="col-sm-4 control-label" for="textinput">Name</label>
-	<div class="col-sm-4">
-	  <input type="text" maxlength = "35" placeholder="Name" class="form-control" name = "name" id = "name" value = "<?=$entry['name']?>">
-	</div>
-  </div>
+	class Admin extends CI_Controller {
 
-  <!-- Text input-->
-  <div class="form-group updateForm">
-	<label class="col-sm-4 control-label" for="textinput">Email</label>
-	<div class="col-sm-4">
-	  <input type="email" placeholder="Email" class="form-control" id = "email" name = "email" value = "<?=$entry['email']?>">
-	</div>
-  </div>
+		private $TPL = [];
 
-  <!-- Text input-->
-  <div class="form-group updateForm">
-	<label class="col-sm-4 control-label" for="textinput">Role</label>
-	<div class="col-sm-4">
-	  <input type="number" max = "1" min = "0" class="form-control" id = "role" name = "role" value = "<?=$entry['access_level_id']?>">
-	</div>
-  </div>
-
-  <input type="submit" id ='submit' class="btn btn-primary" value="Update User">
-</fieldset>
-<?php echo form_close() ?>
-<?php } ?>
-	<div class="x_content">
-		<button style="float:right;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
-		  Add User
-		</button>
-		<button style="float:right; margin-right: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSpace">
-		  Add Space
-		</button>
-
-		<table id = "room">
-		   <tr>  
-			 <th>ID</th>
-			 <th>Name</th>
-			 <th>Email</th>
-			 <th>Access Level</th>
-			 <th>D</th>
-			 <th>U</th>
-		   </tr>
-		  <? foreach ($listing as $row) { ?>
-		   <tr>
-		   <td><?= $row['user_id']?></td>
-		   <td><?= $row['name']?></td>
-		   <td><?= $row['email']?></td>
-		   <td><?= $row['access_level_id']?></td>
-		   <td><a href="<?= base_url() ?>index.php/Admin/delete/<?= $row['user_id']?>">D</a></td>
-		   <td><a href="<?= base_url() ?>index.php/Admin/update/<?= $row['user_id']?>">U</a></td>
-		   </tr>
-		  <? } ?>
-		</table>
-	</div>
-</div>
-
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Add User</h4>
-      </div>
-      <div class="modal-body">
-      <?php echo form_open(base_url() . 'index.php/Admin/add_user', array("class" => "form-horizontal")) ?>
-      <fieldset>
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">Name</label>
-            <div class="col-sm-10">
-              <input type="text" maxlength = "35" placeholder="Name" class="form-control" name = "nameModal" id = "nameModal">
-            </div>
-          </div>
-
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">Email</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="Email" class="form-control" id = "emailModal" name = "emailModal">
-            </div>
-          </div>
-
-           <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">Password</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="Password" class="form-control" id = "passwordModal" name = "passwordModal">
-            </div>
-          </div>
-
-           <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">Role</label>
-            <div class="col-sm-10">
-              <input type="number" placeholder="Role" max = "1" min = "0" class="form-control" id = "roleModal" name = "roleModal">
-            </div>
-          </div>
-
-      </div>
-        </fieldset>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" value="Add User ">
-        <?php echo form_close() ?>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="addSpace" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Add Space</h4>
-      </div>
-      <div class="modal-body">
-      <?php echo form_open(base_url() . 'index.php/Admin/add_space', array("class" => "form-horizontal")) ?>
-      <fieldset>
-	  
-		  <select class="form-control" name="emailList" id="emailList" required>
-            <?php 
-
-            foreach($emails as $row)
-            { 
-              echo '<option value="'.$row['email'].'">'.$row['email'].'</option>';
-            }
-            ?>
-          </select>
+		public function __construct()
+		{
+			parent::__construct();
 			
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">Space Name</label>
-            <div class="col-sm-10">
-              <input type="text" maxlength = "35" placeholder="Name" class="form-control" name = "nameSpace" id = "nameSpace" required>
-            </div>
-          </div>
-		  
-		  <div class="form-group">
-			<label class="col-sm-2 control-label" for="textinput">Description</label>
-			<div class="col-sm-10">
-				<textarea rows="4" cols="50" id="descriptionSpace" name="descriptionSpace"></textarea>
-			</div>
-		  </div>
-      </div>
-        </fieldset>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" value="Add Space ">
-        <?php echo form_close() ?>
-      </div>
-    </div>
-  </div>
-</div>
+			$this->TPL["UserLoggedIn"] = $this->userauthor->IsUserLoggedIn();
+			$query = $this->db->query("SELECT * FROM hl_users ORDER BY user_id ASC");
+			$emailQuery = $this->db->query("SELECT email FROM hl_users");
+			$this->TPL['emails'] = $emailQuery->result_array();
+			$this->TPL['listing'] = $query->result_array();
+			
+		}
+		
+		public function index()
+		{
+			if($this->TPL["UserLoggedIn"])
+			{
+				$homepage = base_url();
+				$this->userauthor->Redirect($homepage);
+			}
+			else
+			{
+				$this->template->show("admin", $this->TPL);
+			}
+		}
+		
+		public function add_user()
+		{
+			date_default_timezone_set('EST');
+			
+			$name = $this->input->post("nameModal");
+			$email = $this->input->post("emailModal");
+			$password = $this->input->post("passwordModal");
+			$role = $this->input->post("roleModal");
+
+			$verifyQuery = $this->db->query("SELECT * FROM hl_users WHERE email = '$email'");
+			
+			if ($verifyQuery->num_rows() >= 1)
+			{
+				$_SESSION['roomError'] = "This account already exists! Please try again.";
+				redirect(base_url() . 'index.php/Admin');
+			}
+			else
+			{
+				$insertQuery = $this->db->query("INSERT INTO hl_users(name, email, enckey, access_level_id) VALUES ('$name', '$email', '$password', '$role')");
+				redirect(base_url() . 'index.php/Admin');
+			}	
+		}
+		
+		public function add_color() 
+		{
+			$color = $this->input->post("colorModal");
+			
+			$colorQuery = $this->db->query("INSERT INTO hl_colors(name) VALUES('$color')");
+			redirect(base_url() . 'index.php/Admin');
+		}
+		
+		public function add_category() 
+		{
+			$category = $this->input->post("categoryModal");
+			
+			$colorQuery = $this->db->query("INSERT INTO hl_categories(name) VALUES('$category')");
+			redirect(base_url() . 'index.php/Admin');
+		}
+		
+		public function add_space()
+		{
+			date_default_timezone_set('EST');
+			
+			$name = $this->input->post("nameSpace");
+			$email = $this->input->post("emailList");
+			$description = $this->input->post("descriptionSpace");
+			$created = date("Y-m-d");
+			
+			$idQuery = $this->db->query("SELECT user_id FROM hl_users WHERE email = '$email'");
+			$data['result'] = $idQuery->result_array();
+			$user_id = $data['result'][0]['user_id'];
+			
+			$insertQuery = $this->db->query("INSERT INTO hl_spaces(name, description, user_id, created_date) VALUES ('$name', '$description', '$user_id', '$created')");
+			redirect(base_url() . 'index.php/Admin');	
+		}
+
+		public function delete($id)
+		{
+			$query = $this->db->query("DELETE FROM hl_users where user_id = '$id';");
+			redirect(base_url() . 'index.php/Admin');
+		}
+		
+		public function update($id)
+		{
+			$query = $this->db->query("SELECT * FROM hl_users where user_id = '$id';");
+			$this->TPL['entry'] = $query->result_array()[0];
+			$this->TPL['update'] = true;
+
+			$this->template->show('admin', $this->TPL);
+		}
+
+		public function updateentry($id)
+		{  		
+			$name = $this->input->post("name");
+			$email = $this->input->post("email");
+			$role = $this->input->post("role");
+
+			$query = $this->db->query("UPDATE hl_users SET name = '$name', email = '$email', access_level_id = '$role' WHERE user_id = '$id'");
+
+			redirect(base_url() . 'index.php/Admin');
+		}
+	}
+?>

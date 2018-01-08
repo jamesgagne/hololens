@@ -118,7 +118,7 @@
 									<form action="<?= base_url(); ?>index.php/Login" method="POST">
 										<div class="form-group">
 											<label for="email">Email</label>
-											<input type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off" style="width:100%">
+											<input type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Email" value="" autocomplete="off" style="width:100%">
 										</div>
 
 										<div class="form-group">
@@ -177,6 +177,11 @@
 					<!-- Navbar LEFT Links -->
 					<ul class="nav navbar-nav navbar-left">
 						<li><a href="<?= base_url(); ?>">Catalog</a></li>
+						<?php if($AccessLevel == "Admin") { ?>
+						
+						<li><a href="<?= base_url(); ?>index.php/Admin">Administration</a></li>
+						
+						<?php } ?>
 						
 						<?php if($UserLoggedIn) { ?>
 						
