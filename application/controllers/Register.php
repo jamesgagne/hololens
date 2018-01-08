@@ -62,7 +62,7 @@
 						
 						$picture["name"] = $picture_ID . $picture_Ext;
 						
-						$target_dir = profilePicturePath();
+						$target_dir = profilePicturePath() . $picture["name"];
 						$picture_link = assetUrl() . "img/profile/" . $picture["name"];
 						
 						if (move_uploaded_file($picture["tmp_name"], $target_dir)) 

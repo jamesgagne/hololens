@@ -2,37 +2,61 @@
 <title>Administration</title>
 							
 <div class="x_panel">
-<div class="x_title">
-	<h2>Student Management</h2>
-	<ul class="nav navbar-right panel_toolbox">
-	  <li><a data-toggle="modal" href="#addModal"><i class="fa fa-plus"></i></a>
-	  </li>
-	</ul>
+
+<?php if(isset($Error)) { ?>
+
+<div class="alert alert-danger fade in">
+<?php if(isset($Error)) echo $Error; ?>
 </div>
+
+<? } ?>
+
+<div class="x_title">
+	<h2>User Management</h2>
+</div>
+
 <?php if (isset($update)) { ?>
 <?php echo form_open(base_url() . 'index.php/Admin/updateentry/' . $entry['user_id'], array("class" => "form-horizontal")) ?>
 <fieldset style = "display: inline-block;">
   <!-- Text input-->
   <div class="form-group updateForm adminpage">
-	<label class="col-sm-4 control-label" for="textinput">Name</label>
-	<div class="col-sm-4">
-	  <input type="text" maxlength = "35" placeholder="Name" class="form-control" name = "name" id = "nameAdmin" value = "<?=$entry['name']?>">
-	</div>
-  </div>
-
-  <!-- Text input-->
-  <div class="form-group updateForm adminpage">
 	<label class="col-sm-4 control-label" for="textinput">Email</label>
 	<div class="col-sm-4">
-	  <input type="email" placeholder="Email" class="form-control" id = "emailAdmin" name = "email" value = "<?=$entry['email']?>">
+	  <input type="email" placeholder="Email" class="form-control" id = "emailAdmin" name = "email" value = "<?=$entry['email']; ?>">
+	</div>
+  </div>
+  
+    <!-- Text input-->
+  <div class="form-group updateForm adminpage">
+	<label class="col-sm-4 control-label" for="textinput">First Name</label>
+	<div class="col-sm-4">
+	  <input type="text" maxlength = "35" placeholder="First Name" class="form-control" name = "firstName" value = "<?=$entry['first_name']; ?>">
+	</div>
+  </div>
+  
+    <!-- Text input-->
+  <div class="form-group updateForm adminpage">
+	<label class="col-sm-4 control-label" for="textinput">Last Name</label>
+	<div class="col-sm-4">
+	  <input type="text" maxlength = "35" placeholder="Last Name" class="form-control" name = "lastName" value = "<?=$entry['last_name']; ?>">
 	</div>
   </div>
 
   <!-- Text input-->
   <div class="form-group updateForm adminpage">
-	<label class="col-sm-4 control-label" for="textinput">Role</label>
+	<label class="col-sm-4 control-label" for="accessLevelUpdate">Access Level</label>
 	<div class="col-sm-4">
-	  <input type="number" max = "1" min = "0" class="form-control" id = "role" name = "role" value = "<?=$entry['access_level_id']?>">
+	  
+	  <select id="accessLevelUpdate" name="accessLevel" class="form-control">
+	  
+		<?php foreach($AccessLevels as $level) { ?>
+	  
+		<option <?php if($entry["access_level_id"] == $level["access_level_id"]) echo "selected"; ?> value="<?= $level["access_level_id"]; ?>"><?= $level["name"]; ?></option>
+		
+		<? } ?>
+		
+	</select>
+	  
 	</div>
   </div>
 
@@ -40,37 +64,37 @@
 </fieldset>
 <?php echo form_close() ?>
 <?php } ?>
-	<div class="x_content">
-		<button style="float:right;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
-		  Add User
-		</button>
-		<button style="float:right; margin-right: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSpace">
-		  Add Space
-		</button>
-		<button style="float:right; margin-right: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcolorModal">
-		  Add Color
-		</button>
-		<button style="float:right; margin-right: 5px;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCategory">
-		  Add Category
-		</button>
 
+	<div class="x_content">
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add User</button>
+		
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcolorModal">Add Color</button>
+		
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCategory">Add Category</button>
+
+		<br>
+		<br>
+		
 		<table id = "room">
 		   <tr>  
 			 <th>ID</th>
-			 <th>Name</th>
 			 <th>Email</th>
+			 <th>First Name</th>
+			 <th>Last Name</th>
 			 <th>Access Level</th>
-			 <th>D</th>
-			 <th>U</th>
+			 <th></th>
 		   </tr>
 		  <? foreach ($listing as $row) { ?>
 		   <tr>
-		   <td><?= $row['user_id']?></td>
-		   <td><?= $row['name']?></td>
-		   <td><?= $row['email']?></td>
-		   <td><?= $row['access_level_id']?></td>
-		   <td><a href="<?= base_url() ?>index.php/Admin/delete/<?= $row['user_id']?>">D</a></td>
-		   <td><a href="<?= base_url() ?>index.php/Admin/update/<?= $row['user_id']?>">U</a></td>
+		   <td><?= $row['user_id']; ?></td>
+		   <td><?= $row['email']; ?></td>
+		   <td><?= $row['first_name']; ?></td>
+		   <td><?= $row['last_name']; ?></td>
+		   <td><?= $row['name']; ?></td>
+		   <td>
+				<a href="<?= base_url() ?>index.php/Admin/delete/<?= $row['user_id']; ?>"><span class="pull-left glyphicon glyphicon-trash"></span></a>
+				<a href="<?= base_url() ?>index.php/Admin/update/<?= $row['user_id']; ?>"><span class="pull-right glyphicon glyphicon-pencil"></span></a>
+		   </td>
 		   </tr>
 		  <? } ?>
 		</table>
@@ -87,35 +111,51 @@
       <div class="modal-body">
       <?php echo form_open(base_url() . 'index.php/Admin/add_user', array("class" => "form-horizontal")) ?>
       <fieldset>
-          <!-- Text input-->
+			<!-- Text input-->
           <div class="form-group adminpage">
-            <label class="col-sm-2 control-label" for="textinput">Name</label>
-            <div class="col-sm-10">
-              <input type="text" maxlength = "35" placeholder="Name" class="form-control" name = "nameModal" id = "nameModal">
+            <label class="col-sm-3 control-label" for="textinput">Email</label>
+            <div class="col-sm-9">
+              <input autocomplete="off" type="email" placeholder="Email" class="form-control" id = "emailModal" name = "emailModal" required>
             </div>
           </div>
-
+	  
           <!-- Text input-->
           <div class="form-group adminpage">
-            <label class="col-sm-2 control-label" for="textinput">Email</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="Email" class="form-control" id = "emailModal" name = "emailModal">
+            <label class="col-sm-3 control-label" for="textinput">First Name</label>
+            <div class="col-sm-9">
+              <input autocomplete="off" type="text" maxlength = "35" placeholder="First Name" class="form-control" name = "firstName" required>
+            </div>
+          </div>
+		  
+		  <!-- Text input-->
+          <div class="form-group adminpage">
+            <label class="col-sm-3 control-label" for="textinput">Last Name</label>
+            <div class="col-sm-9">
+              <input autocomplete="off" type="text" maxlength = "35" placeholder="Last Name" class="form-control" name = "lastName" required>
             </div>
           </div>
 
            <!-- Text input-->
           <div class="form-group adminpage">
-            <label class="col-sm-2 control-label" for="textinput">Password</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="Password" class="form-control" id = "passwordModal" name = "passwordModal">
+            <label class="col-sm-3 control-label" for="textinput">Password</label>
+            <div class="col-sm-9">
+              <input autocomplete="off" type="password" placeholder="Password" class="form-control" id = "passwordModal" name = "passwordModal" required>
             </div>
           </div>
 
-           <!-- Text input-->
+		  <!-- Select input-->
           <div class="form-group adminpage">
-            <label class="col-sm-2 control-label" for="textinput">Role</label>
-            <div class="col-sm-10">
-              <input type="number" placeholder="Role" max = "1" min = "0" class="form-control" id = "roleModal" name = "roleModal">
+            <label class="col-sm-3 control-label" for="accessLevelAdd">Access Level</label>
+            <div class="col-sm-9">
+			<select name="accessLevel" id="accessLevelAdd" class="form-control">
+	  
+			<?php foreach($AccessLevels as $level) { ?>
+		  
+			<option <?php if($entry["access_level_id"] == $level["access_level_id"]) echo "selected"; ?> value="<?= $level["access_level_id"]; ?>"><?= $level["name"]; ?></option>
+			
+			<? } ?>
+			
+			</select>
             </div>
           </div>
 
@@ -144,7 +184,7 @@
           <div class="form-group adminpage">
             <label class="col-sm-2 control-label" for="textinput">Color</label>
             <div class="col-sm-10">
-              <input type="text" maxlength = "30" placeholder="Color" class="form-control" name = "colorModal" id = "colorModal">
+              <input type="text" maxlength = "30" placeholder="Color" class="form-control" name = "colorModal" id = "colorModal" required>
             </div>
           </div>
       </div>
@@ -172,7 +212,7 @@
           <div class="form-group adminpage">
             <label class="col-sm-2 control-label" for="textinput">Category</label>
             <div class="col-sm-10">
-              <input type="text" maxlength = "30" placeholder="Category" class="form-control" name = "categoryModal" id = "categoryModal">
+              <input type="text" maxlength = "30" placeholder="Category" class="form-control" name = "categoryModal" id = "categoryModal" required>
             </div>
           </div>
       </div>

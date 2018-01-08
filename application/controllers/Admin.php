@@ -10,47 +10,67 @@
 			parent::__construct();
 			
 			$this->TPL["UserLoggedIn"] = $this->userauthor->IsUserLoggedIn();
-			$query = $this->db->query("SELECT * FROM hl_users ORDER BY user_id ASC");
+			
+			$this->db->select("*");
+			$this->db->from("hl_users as u");
+			$this->db->join("hl_access_levels as al", "u.access_level_id = al.access_level_id");
+			$query = $this->db->get();
+			
 			$emailQuery = $this->db->query("SELECT email FROM hl_users");
 			$this->TPL['emails'] = $emailQuery->result_array();
 			$this->TPL['listing'] = $query->result_array();
 			
-		}
-		
-		public function index()
-		{
-			if($this->TPL["UserLoggedIn"])
+			$email = $this->userauthor->GetEmail();
+				
+			$this->TPL["Email"] = $email;
+			$this->TPL["AccessLevel"] = $this->userauthor->GetAccessLevel($email);
+			$this->TPL["ProfilePicture"] = $this->userauthor->GetProfilePicture($email);
+			
+			if($this->TPL["UserLoggedIn"] && !($this->TPL["AccessLevel"] == "Admin"))
 			{
 				$homepage = base_url();
 				$this->userauthor->Redirect($homepage);
 			}
-			else
-			{
-				$this->template->show("admin", $this->TPL);
-			}
+			
+			$this->TPL["AccessLevels"] = $this->get_access_levels();
+		}
+		
+		public function index()
+		{
+			$this->template->show("admin", $this->TPL);
+		}
+		
+		private function get_access_levels()
+		{
+			$accessLevels = $this->db->get("hl_access_levels")->result_array();
+			
+			return $accessLevels;
 		}
 		
 		public function add_user()
 		{
 			date_default_timezone_set('EST');
 			
-			$name = $this->input->post("nameModal");
+			$first = $this->input->post("firstName");
+			$last = $this->input->post("lastName");
+			
 			$email = $this->input->post("emailModal");
 			$password = $this->input->post("passwordModal");
-			$role = $this->input->post("roleModal");
+			$accessLevel = $this->input->post("accessLevel");
 
-			$verifyQuery = $this->db->query("SELECT * FROM hl_users WHERE email = '$email'");
-			
-			if ($verifyQuery->num_rows() >= 1)
+			if(!$this->userauthor->IsUserInDatabase($email))
 			{
-				$_SESSION['roomError'] = "This account already exists! Please try again.";
-				redirect(base_url() . 'index.php/Admin');
+				$this->db->insert("hl_users", array("email" => $email, "first_name" => $first, "last_name" => $last, "enckey" => password_hash($password, PASSWORD_BCRYPT), "access_level_id" => $accessLevel));
+				
+				$adminPage = base_url() . "index.php/Admin";	
+				$this->userauthor->Redirect($adminPage);
 			}
-			else
+			else 
 			{
-				$insertQuery = $this->db->query("INSERT INTO hl_users(name, email, enckey, access_level_id) VALUES ('$name', '$email', '$password', '$role')");
-				redirect(base_url() . 'index.php/Admin');
-			}	
+				$this->TPL["Error"] = "Email already in use!";
+				
+				$this->template->show("admin", $this->TPL);
+			}
 		}
 		
 		public function add_color() 
@@ -103,13 +123,15 @@
 
 		public function updateentry($id)
 		{  		
-			$name = $this->input->post("name");
+			$first = $this->input->post("firstName");
+			$last = $this->input->post("lastName");
 			$email = $this->input->post("email");
-			$role = $this->input->post("role");
+			$level = $this->input->post("accessLevel");
+			
+			$this->db->update("hl_users", array("first_name" => $first, "last_name" => $last, "email" => $email, "access_level_id" => $accessLevel));
 
-			$query = $this->db->query("UPDATE hl_users SET name = '$name', email = '$email', access_level_id = '$role' WHERE user_id = '$id'");
-
-			redirect(base_url() . 'index.php/Admin');
+			$adminPage = base_url() . "index.php/Admin";	
+			$this->userauthor->Redirect($adminPage);
 		}
 	}
 ?>
