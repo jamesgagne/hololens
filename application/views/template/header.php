@@ -19,6 +19,9 @@
 		<!-- Javascript for Register page -->
 		<script src="<?= assetUrl(); ?>js/register.js"></script>
 		
+		<!-- Javascript for Workspace page -->
+		<script src="<?= assetUrl(); ?>js/workspace.js"></script>
+		
 		<!-- Stylesheet for Catalog page -->
 		<link rel="stylesheet" href="<?= assetUrl(); ?>css/catalog.css" />
 	</head>
@@ -177,15 +180,16 @@
 					<!-- Navbar LEFT Links -->
 					<ul class="nav navbar-nav navbar-left">
 						<li><a href="<?= base_url(); ?>">Catalog</a></li>
-						<?php if($AccessLevel == "Admin") { ?>
-						
-						<li><a href="<?= base_url(); ?>index.php/Admin">Administration</a></li>
-						
-						<?php } ?>
 						
 						<?php if($UserLoggedIn) { ?>
 						
 						<li><a href="<?= base_url() . "index.php/Upload"; ?>">Upload</a></li>
+						
+						<?php } ?>
+						
+						<?php if($AccessLevel == "Admin") { ?>
+						
+						<li><a href="<?= base_url(); ?>index.php/Admin">Administration</a></li>
 						
 						<?php } ?>
 						

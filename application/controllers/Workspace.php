@@ -30,7 +30,56 @@
 			
 			$this->TPL["Workspaces"] = $this->GetWorkspacesForUser($email);
 			
+			if(count($_GET) > 0)
+			{
+				$space_id = $_GET["space_id"];
+				
+				$this->TPL["CurrentWorkspace"] = $_GET["space_id"];
+				$this->TPL["Models"] = $this->GetModelsForWorkspace($space_id);
+				$this->TPL["SpaceID"] = $space_id;
+			}
+			else
+			{
+				$space_id = $this->TPL["Workspaces"][0]["space_id"];
+				
+				$this->TPL["Models"] = $this->GetModelsForWorkspace($space_id);
+				$this->TPL["SpaceID"] = $space_id;
+			}
+			
 			$this->template->show("workspace", $this->TPL);
+		}
+		
+		public function RemoveModel()
+		{
+			$model_id = $this->input->post("model_id");
+			$space_id = $this->input->post("space_id");
+			
+			$this->db->delete("hl_space_file_lines", array("model_id" => $model_id, "space_id" => $space_id));
+			
+			$query = $this->db->get_where("hl_space_file_lines", array("model_id" => $model_id, "space_id" => $space_id));
+			$result = $query->result_array();
+			
+			if(count($result) == 0)
+			{
+				return print($model_id);
+			}
+			else
+			{
+				return print("error");
+			}
+		}
+		
+		private function GetModelsForWorkspace($space_id)
+		{
+			$this->db->select("*");
+			$this->db->from("hl_models as m");
+			$this->db->join("hl_space_file_lines as fl", "m.model_id = fl.model_id", "left");
+			$this->db->join("hl_pictures as p", "m.picture_id = p.picture_id", "left");
+			$this->db->where("space_id", $space_id);
+			
+			$models = $this->db->get()->result_array();
+			
+			return $models;
 		}
 		
 		private function GetWorkspacesForUser($email)

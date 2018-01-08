@@ -1,8 +1,6 @@
 							<title>Workspaces</title>	
-
-							<div class="row">
 							
-							</div>
+							<input type="hidden" id="space_id" value="<?= $SpaceID; ?>" />
 							
 							<div class="row">
 							
@@ -11,19 +9,19 @@
 										<input type="hidden" id="base_url" value="<?= base_url(); ?>" />
 										
 										<form class="form-inline" method="GET" action="<?= base_url(); ?>index.php/Workspace">
-											<select class="form-control" name="space_id" onchange="this.form.submit();">
+											<label for="space">Current Workspace</label>
+										
+											<select id="space" class="form-control" name="space_id" onchange="this.form.submit();">
 												
 												<?php foreach((array)$Workspaces as $workspace) { ?>
 												
-												<option value="<?= $workspace["space_id"]; ?>"><?= $workspace["name"]; ?></option>
+												<option <?php if($CurrentWorkspace == $workspace["space_id"]) echo "selected"; ?> value="<?= $workspace["space_id"]; ?>"><?= $workspace["name"]; ?></option>
 												
 												<?php } ?>
 												
 											</select>	
 										
-																				
-										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Add To Workspace" data-toggle="modal" data-target="#addModal" id="addButton" />	
-										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Delete" data-toggle="modal" data-target="#deleteModal" id="deleteButton" />
+										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Remove From Workspace" data-toggle="modal" data-target="#removeModal" id="removeButton" />
 										
 										<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Download" id="downloadButton" />
 										
@@ -46,6 +44,27 @@
 										
 										<?php } ?>
 
+									</div>
+								</div>
+							</div>
+							
+							<!-- Delete Modal -->
+							<div class="modal fade" id="removeModal">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<span class="h4">Remove Selected</span>
+										</div>
+									
+										<div class="modal-body">
+											<p>Are you sure you want to remove the <span id="removeFileCount"></span> selected model(s)?</p>
+										</div>
+										
+										<div class="modal-footer">
+											<input type="button" data-dismiss="modal" class="btn btn-success" value="OK" id="removeOK" />
+											<input type="button" data-dismiss="modal" class="btn btn-danger" value="Cancel" />
+										</div>
 									</div>
 								</div>
 							</div>
