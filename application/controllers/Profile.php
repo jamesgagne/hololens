@@ -11,33 +11,33 @@
 			
 			$this->TPL["UserLoggedIn"] = $this->userauthor->IsUserLoggedIn();
 			
-			$this->TPL["security_Questions"] = $this->userauthor->GetAllSecurityQuestions();
-			
 			if($this->TPL["UserLoggedIn"])
-			{
-				$email = $this->userauthor->GetEmail();
-				
-				$this->TPL["Email"] = $email;
-				$this->TPL["AccessLevel"] = $this->userauthor->GetAccessLevel($email);
-				$this->TPL["ProfilePicture"] = $this->userauthor->GetProfilePicture($email);
-			}
+ 			{
+ 				$email = $this->userauthor->GetEmail();
+ 				
+ 				$this->TPL["Email"] = $email;
+ 				$this->TPL["AccessLevel"] = $this->userauthor->GetAccessLevel($email);
+ 				$this->TPL["ProfilePicture"] = $this->userauthor->GetProfilePicture($email);
+ 			}
 		}
 
 		public function index()
 		{
 			if($this->TPL["UserLoggedIn"])
 			{
+				if(count($_POST) > 0)
+				{
 				  $this->Update();
+				}
+				  
+				  $this->template->show("profile", $this->TPL);
 			}
 			else
 			{
-				if(count($_POST) > 0)
-				{
 				  $homepage = base_url();
-				  $this->userauthor->Redirect($homepage);
-				}
+				  $this->userauthor->Redirect($homepage);			
+				
 			}
-			$this->template->show("profile", $this->TPL);
 		}
 		
 		public function Update()
@@ -57,10 +57,10 @@
 				
 				$picture["name"] = $picture_ID . $picture_Ext;
 				
-				$target_dir = profilePicturePath();
+				$target_dir = profilePicturePath() . $picture["name"];
 				$picture_link = assetUrl() . "img/profile/" . $picture["name"];
 				
-				if (move_uploaded_file($picture["tmp_name"], $target_dir)) 
+				if (move_uploaded_file($picture["tmp_name"], $target_dir) || !$updatePicture) 
 				{
 					$this->db->trans_start();
 					
@@ -97,7 +97,7 @@
 					
 					if (!updatePicture)
 					{
-						unset($values["last_name"]);
+						unset($values["picture_id"]);
 					}
 			
 					$this->db->update("hl_users", $values);
