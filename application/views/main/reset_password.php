@@ -2,13 +2,13 @@
 							<div class="row">
 								<div class="col-xs-6 col-sm-5 col-md-5 col-lg-4 col-centered">
 								
-									<? if(isset($Success)) { ?>
+									<?phpif(isset($Success)) { ?>
 									
 									<div class="alert alert-success fade in" style="padding: 20px 20px 20px 40px;">
 										<p><?= $Success; ?></p>
 									</div>
 									
-									<? } ?>
+									<?php } ?>
 								
 									<? if(isset($Error)) { ?>
 									
@@ -16,7 +16,7 @@
 										<p><?= $Error; ?></p>
 									</div>
 									
-									<? } ?>
+									<?php } ?>
 								
 									<div class="row text-center">
 										<span class="h2">Forgotten Password</span>				
