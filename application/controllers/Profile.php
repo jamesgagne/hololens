@@ -12,6 +12,10 @@
 			$this->TPL["UserLoggedIn"] = $this->userauthor->IsUserLoggedIn();
 			
 			$this->TPL["security_Questions"] = $this->userauthor->GetAllSecurityQuestions();
+			
+			$this->TPL["Email"] = $email;
+			$this->TPL["AccessLevel"] = $this->userauthor->GetAccessLevel($email);
+			$this->TPL["ProfilePicture"] = $this->userauthor->GetProfilePicture($email);
 		}
 
 		public function index()
@@ -27,9 +31,9 @@
 				  $homepage = base_url();
 				  $this->userauthor->Redirect($homepage);
 				}
-				
-				$this->template->show("profile", $this->TPL);
 			}
+			
+			$this->template->show("profile", $this->TPL);
 		}
 		
 		public function Update()
