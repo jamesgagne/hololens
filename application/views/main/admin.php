@@ -9,7 +9,7 @@
 <?php if(isset($Error)) echo $Error; ?>
 </div>
 
-<? } ?>
+<?php } ?>
 
 <div class="x_title">
 	<h2>User Management</h2>
@@ -53,7 +53,7 @@
 	  
 		<option <?php if($entry["access_level_id"] == $level["access_level_id"]) echo "selected"; ?> value="<?= $level["access_level_id"]; ?>"><?= $level["name"]; ?></option>
 		
-		<? } ?>
+		<?php } ?>
 		
 	</select>
 	  
@@ -84,7 +84,7 @@
 			 <th>Access Level</th>
 			 <th></th>
 		   </tr>
-		  <? foreach ($listing as $row) { ?>
+		  <?php foreach ($listing as $row) { ?>
 		   <tr>
 		   <td><?= $row['user_id']; ?></td>
 		   <td><?= $row['email']; ?></td>
@@ -96,7 +96,7 @@
 				<a href="<?= base_url() ?>index.php/Admin/update/<?= $row['user_id']; ?>"><span class="pull-right glyphicon glyphicon-pencil"></span></a>
 		   </td>
 		   </tr>
-		  <? } ?>
+		  <?php } ?>
 		</table>
 	</div>
 </div>
@@ -153,7 +153,7 @@
 		  
 			<option <?php if($entry["access_level_id"] == $level["access_level_id"]) echo "selected"; ?> value="<?= $level["access_level_id"]; ?>"><?= $level["name"]; ?></option>
 			
-			<? } ?>
+			<?php } ?>
 			
 			</select>
             </div>
