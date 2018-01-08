@@ -73,7 +73,7 @@ $(document).ready(function() {
 				"model_id":model_id
 			},
 			success:function(data){
-				if(data != "errror") {
+				if(data != "error") {
 					$('.model:checkbox:checked').each(function() {		
 						var fileInfo = $(this).val();
 						var model_id = fileInfo.split(",")[2];
@@ -83,6 +83,12 @@ $(document).ready(function() {
 							parent.remove();
 						}
 					});
+					
+					if(getSelectedFileCount() == 0) {
+						$("#addButton").prop("disabled", true);
+						$("#deleteButton").prop("disabled", true);
+						$("#downloadButton").prop("disabled", true);
+					}
 				}
 			}
 		});
