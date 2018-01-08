@@ -13,9 +13,14 @@
 			
 			$this->TPL["security_Questions"] = $this->userauthor->GetAllSecurityQuestions();
 			
-			$this->TPL["Email"] = $email;
-			$this->TPL["AccessLevel"] = $this->userauthor->GetAccessLevel($email);
-			$this->TPL["ProfilePicture"] = $this->userauthor->GetProfilePicture($email);
+			if($this->TPL["UserLoggedIn"])
+			{
+				$email = $this->userauthor->GetEmail();
+				
+				$this->TPL["Email"] = $email;
+				$this->TPL["AccessLevel"] = $this->userauthor->GetAccessLevel($email);
+				$this->TPL["ProfilePicture"] = $this->userauthor->GetProfilePicture($email);
+			}
 		}
 
 		public function index()
@@ -32,7 +37,6 @@
 				  $this->userauthor->Redirect($homepage);
 				}
 			}
-			
 			$this->template->show("profile", $this->TPL);
 		}
 		
