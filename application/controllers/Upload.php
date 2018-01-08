@@ -27,7 +27,6 @@ class Upload extends CI_Controller {
 			$this->TPL["Email"] = $email;
 			$this->TPL["AccessLevel"] = $this->userauthor->GetAccessLevel($email);
 			$this->TPL["ProfilePicture"] = $this->userauthor->GetProfilePicture($email);
-			$this->TPL["Spaces"] = $this->GetWorkSpaces($email);
 			
 			$this->TPL['uploadsuccess'] = false;
 			$this->TPL['colors'] = $this->UploadModel->getColors();

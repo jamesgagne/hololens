@@ -11,6 +11,7 @@
     height: 200px;
     padding: 8px;
     font-size: 18px;
+	cursor: pointer;
 }
 #makeSelection{
   width:35%;
@@ -19,18 +20,28 @@
   margin-top: 5%
 }
 fieldset{
-  border: 1px dashed black;
+  padding: 20px;
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <?= ini_get("upload_max_filesize");?>
-<div id="drop_zone" ondrop="drag_drop(event)" ondragover="return false"><div id="makeSelection">Drag And Drop or<br /><input style="border: 2px dashed #999;" type='file' multiple="true" onchange="changedFileUpload(event)" id="your-files" /></div></div>
+
+<label id="drop_zone" ondrop="drag_drop(event)" ondragover="return false">
+	<div id="makeSelection">Drag And Drop or Click Here to Add Files<br />
+		<input style="display: none; border: 2px dashed #999;" type='file' multiple="true" onchange="changedFileUpload(event)" id="your-files" />
+	</div>
+</label>
+
+<br>
+<br>
+
 <form id="files" enctype ='multipart/form-data' method="post">
-  <br />
-  <button id="formButton" type="submit">Upload</button>
-  <br />
-    </div>
-  </div>
+</form>
+
+<button class="btn btn-success" id="formButton" type="submit">Upload</button>
+
+</div>
+</div>
   <script>
   var fileCount = 0;
   var uploadedModels = [];
@@ -39,21 +50,21 @@ function drag_drop(event) {
     jQuery.each(event.dataTransfer.files,function(element){
         if (getType(event.dataTransfer.files[element].name)=="fbx"){
 
-    var colorSelect = "Select a Color: <select class='select' name='colors' id='"+fileCount+"color' style='width:10%;'><option value='' disabled selected>Select</option>";
+    var colorSelect = "Select a Color: <select class='form-control' name='colors' id='"+fileCount+"color' style='width:25%;'><option value='' disabled selected>Select</option>";
                 
                 <?php foreach ($colors as $key => $value) :?>
-                colorSelect+="<option value='<?=$value['color_id']?>'> <?=$value['name']?></option>";
+                colorSelect+="<option value='<?=$value['color_id']?>'> <?=$value['name']; ?></option>";
                 <?php endforeach?>
     colorSelect+="</select><br />";
 
-        var catSelect = "Select a Category: <select class='select' name='colors' id='"+fileCount+"category' style='width:10%;'><option value='' disabled selected>Select</option>";
+        var catSelect = "Select a Category: <select class='form-control' name='colors' id='"+fileCount+"category' style='width:25%;'><option value='' disabled selected>Select</option>";
                 
                 <?php foreach ($categories as $key => $value) :?>
-                catSelect+="<option value='<?=$value['category_id']?>'> <?=$value['name']?></option>";
+                catSelect+="<option value='<?=$value['category_id']?>'> <?=$value['name']; ?></option>";
                 <?php endforeach?>
         catSelect+="</select><br />";
 
-      $("#files").append("<fieldset id='"+fileCount+"'> <h2>"+event.dataTransfer.files[element].name+"</h2>Add a Description &nbsp;<input type='text' name='"+event.dataTransfer.files[element].name+"[description]' id='"+fileCount+"description' /> <br /><br />Select a thumbnail &nbsp;<input required type='file' name='"+event.dataTransfer.files[element].name+"[thumbFile]' id='"+fileCount+"thumbFile' /><br />"+colorSelect+"<br />"+catSelect+"<br /></fieldset>");
+      $("#files").append("<div class='panel panel-default'><fieldset id='"+fileCount+"'> <h2>"+event.dataTransfer.files[element].name+"</h2>Add a Description &nbsp;<textarea rows='4' style='resize: none; width: 25%;' class='form-control' name='"+event.dataTransfer.files[element].name+"[description]' id='"+fileCount+"description'></textarea> <br /><br />Select a thumbnail &nbsp;<input class='form-control' style='width: 25%;' required type='file' name='"+event.dataTransfer.files[element].name+"[thumbFile]' id='"+fileCount+"thumbFile' /><br />"+colorSelect+"<br />"+catSelect+"<br /></fieldset></div>");
       uploadedModels.push(event.dataTransfer.files[element]);
       console.log(event.dataTransfer.files[element].type);
       fileCount ++;
@@ -69,19 +80,19 @@ function changedFileUpload(e){
    jQuery.each(control.files,function(element){
     
     if (getType(control.files[element].name)=="fbx"){
-   var colorSelect = "Select a Color: <select class='select' name='colors' id='"+fileCount+"color' style='width:10%;'><option value='' disabled selected>Select</option>"; 
+   var colorSelect = "Select a Color: <select class='form-control' style='width: 25%;' name='colors' id='"+fileCount+"color' style='width:10%;'><option value='' disabled selected>Select</option>"; 
 
    <?php foreach ($colors as $key => $value) :?>
-                colorSelect+="<option value='<?=$value['color_id']?>'> <?=$value['name']?></option>";
+                colorSelect+="<option value='<?=$value['color_id']?>'> <?=$value['name']; ?></option>";
         <?php endforeach?>
         colorSelect+="</select><br />";
-  var catSelect = "Select a Category: <select class='select' name='colors' id='"+fileCount+"category' style='width:10%;'><option value='' disabled selected>Select</option>";
+  var catSelect = "Select a Category: <select class='form-control' style='width: 25%;' name='colors' id='"+fileCount+"category' style='width:10%;'><option value='' disabled selected>Select</option>";
                 
                 <?php foreach ($categories as $key => $value) :?>
-                catSelect+="<option value='<?=$value['category_id']?>'> <?=$value['name']?></option>";
+                catSelect+="<option value='<?=$value['category_id']?>'> <?=$value['name']; ?></option>";
                 <?php endforeach?>
         catSelect+="</select><br />";
-      $("#files").append("<fieldset id='"+fileCount+"'> <h2>"+control.files[element].name+"</h2>Add a Description &nbsp;<input type='text' name='"+control.files[element].name+"[description]' id='"+fileCount+"description' /> <br /><br />Select a thumbnail &nbsp;<input required type='file' name='"+control.files[element].name+"[thumbFile]' id='"+fileCount+"thumbFile' /><br />"+colorSelect+"</br>"+catSelect+"<br /></fieldset>");
+      $("#files").append("<div class='panel panel-default'><fieldset id='"+fileCount+"'> <h2>"+control.files[element].name+"</h2>Add a Description &nbsp;<textarea rows='4' class='form-control' style='resize: none; width: 25%;' name='"+control.files[element].name+"[description]' id='"+fileCount+"description'></textarea> <br /><br />Select a thumbnail &nbsp;<input class='form-control' style='width: 25%;' required type='file' name='"+control.files[element].name+"[thumbFile]' id='"+fileCount+"thumbFile' /><br />"+colorSelect+"</br>"+catSelect+"<br /></fieldset></div>");
       uploadedModels.push(control.files[element]);
       console.log(control.files[element].type);
       fileCount++;
@@ -131,6 +142,7 @@ console.log($('#'+element+'description').val());
                         type: 'post',
                         success: function (data)
                         {
+							alert("Upload successful!");
                             console.log(data);
                         }
                       });
