@@ -103,11 +103,17 @@
 									</a>
 								</div>
 								
+								<br>
+								<br>
+								
 								<div class="col-xs-12">
 									<a href="<?= base_url(); ?>index.php/Workspace">
 										<button class="btn btn-primary">My Workspaces</button>
 									</a>
 								</div>
+								
+								<br>
+								<br>
 								
 								<div class="col-xs-12">
 									<a href="<?= base_url(); ?>index.php/Logout">

@@ -20,6 +20,12 @@
 			$this->TPL['emails'] = $emailQuery->result_array();
 			$this->TPL['listing'] = $query->result_array();
 			
+			$colorQuery = $this->db->query("SELECT * FROM hl_colors");
+			$this->TPL['listingColor'] = $colorQuery->result_array();
+			
+			$categoryQuery = $this->db->query("SELECT * FROM hl_categories");
+			$this->TPL['listingCategory'] = $categoryQuery->result_array();
+			
 			$email = $this->userauthor->GetEmail();
 				
 			$this->TPL["Email"] = $email;
@@ -112,6 +118,18 @@
 			redirect(base_url() . 'index.php/Admin');
 		}
 		
+		public function deleteColor($id)
+		{
+			$query = $this->db->query("DELETE FROM hl_colors where color_id = '$id';");
+			redirect(base_url() . 'index.php/Admin');
+		}
+		
+		public function deleteCategory($id)
+		{
+			$query = $this->db->query("DELETE FROM hl_categories where category_id = '$id';");
+			redirect(base_url() . 'index.php/Admin');
+		}
+		
 		public function update($id)
 		{
 			$query = $this->db->query("SELECT * FROM hl_users where user_id = '$id';");
@@ -130,6 +148,46 @@
 			
 			$this->db->where("user_id", $id);
 			$this->db->update("hl_users", array("first_name" => $first, "last_name" => $last, "email" => $email, "access_level_id" => $accessLevel));
+
+			$adminPage = base_url() . "index.php/Admin";	
+			$this->userauthor->Redirect($adminPage);
+		}
+		
+		public function updateColor($id)
+		{
+			$query = $this->db->query("SELECT * FROM hl_colors where color_id = '$id';");
+			$this->TPL['entryColor'] = $query->result_array()[0];
+			$this->TPL['updateColor'] = true;
+
+			$this->template->show('admin', $this->TPL);
+		}
+
+		public function updateentryColor($id)
+		{  		
+			$color = $this->input->post("colorName");
+			
+			$this->db->where("color_id", $id);
+			$this->db->update("hl_colors", array("name" => $color));
+
+			$adminPage = base_url() . "index.php/Admin";	
+			$this->userauthor->Redirect($adminPage);
+		}
+		
+		public function updateCategory($id)
+		{
+			$query = $this->db->query("SELECT * FROM hl_categories where category_id = '$id';");
+			$this->TPL['entryCategory'] = $query->result_array()[0];
+			$this->TPL['updateCategory'] = true;
+
+			$this->template->show('admin', $this->TPL);
+		}
+
+		public function updateentryCategory($id)
+		{  		
+			$category = $this->input->post("categoryName");
+			
+			$this->db->where("category_id", $id);
+			$this->db->update("hl_categories", array("name" => $category));
 
 			$adminPage = base_url() . "index.php/Admin";	
 			$this->userauthor->Redirect($adminPage);
