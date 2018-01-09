@@ -2,7 +2,7 @@
 							<div class="row">
 								<div class="col-xs-6 col-sm-5 col-md-5 col-lg-4 col-centered">
 								
-									<?phpif(isset($Success)) { ?>
+									<?php if(isset($Success)) { ?>
 									
 									<div class="alert alert-success fade in" style="padding: 20px 20px 20px 40px;">
 										<p><?= $Success; ?></p>
@@ -10,7 +10,7 @@
 									
 									<?php } ?>
 								
-									<? if(isset($Error)) { ?>
+									<?php if(isset($Error)) { ?>
 									
 									<div class="alert alert-danger fade in" style="padding: 20px 20px 20px 40px;">
 										<p><?= $Error; ?></p>

@@ -97,13 +97,19 @@
 							
 							<?php if($UserLoggedIn) { ?>
 							
-								<div class="col-xs-5 col-xs-offset-1">
+								<div class="col-xs-12">
 									<a href="<?= base_url(); ?>index.php/Profile">
 										<button class="btn btn-primary">My Profile</button>
 									</a>
 								</div>
 								
-								<div class="col-xs-6">
+								<div class="col-xs-12">
+									<a href="<?= base_url(); ?>index.php/Workspace">
+										<button class="btn btn-primary">My Workspaces</button>
+									</a>
+								</div>
+								
+								<div class="col-xs-12">
 									<a href="<?= base_url(); ?>index.php/Logout">
 										<button class="btn btn-primary">Logout</button>
 									</a>
@@ -192,6 +198,8 @@
 						<li><a href="<?= base_url(); ?>index.php/Admin">Administration</a></li>
 						
 						<?php } ?>
+						
+						<li><a href="<?= base_url(); ?>index.php/Help">Help</a></li>
 						
 					</ul>
 				</div>
