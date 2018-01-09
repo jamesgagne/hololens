@@ -12,7 +12,7 @@ $(document).ready(function() {
 	});
 	
 	$('.fileCheckBox').change(function() {
-		var parent = $(this).parent();
+		var parent = $(this);
 		
 		$(parent).toggleClass("highlight");
 		
@@ -80,7 +80,7 @@ $(document).ready(function() {
 						var parent = $(this).parent();
 						
 						if(data == model_id) {
-							parent.remove();
+							parent.parent().remove();
 						}
 					});
 					

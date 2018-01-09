@@ -144,19 +144,29 @@ class Upload extends CI_Controller {
       echo json_encode($this->TPL);       
     
   }
-  public function addThumb(){
-    $src = $_FILES['thumb']['tmp_name'];
-      $destination  = hardImgUrl()."/thumbs/". $_FILES['thumb']['name'];
+	public function addThumb(){
+		$src = $_FILES['thumb']['tmp_name'];
+		$destination  = hardImgUrl()."/thumbs/". $_FILES['thumb']['name'];
 
-      move_uploaded_file($src,$destination);
-      $savePath = assetUrl() . "models/thumbs/".$_FILES['thumb']['name'];
-      $description = $_FILES['thumb']['name'];
-      $model_id = $_POST['model_id'];
-      $picture_id = $this->UploadModel->insertImage($description, $savePath);   
-      $this->TPL['newPictureID'] = $picture_id;
-      $this->TPL['updated'] = $this->UploadModel->updateModelsPicture($model_id, $picture_id);
-      echo json_encode($this->TPL);
-  }
-
+		$model_id = $_POST['model_id'];
+		
+		if($src != null) {
+			  move_uploaded_file($src,$destination);
+			  $savePath = assetUrl() . "models/thumbs/".$_FILES['thumb']['name'];
+			  $description = $_FILES['thumb']['name'];
+			  $picture_id = $this->UploadModel->insertImage($description, $savePath);   
+			  $this->TPL['newPictureID'] = $picture_id;
+			  $this->TPL['updated'] = $this->UploadModel->updateModelsPicture($model_id, $picture_id);
+			  echo json_encode($this->TPL); 
+		}
+		else
+		{
+			$this->db->insert('hl_pictures', array("description" => "Model Thumbnail", "link" => assetUrl() . "img/no_image.png"));
+			$picture_id = $this->db->insert_id();
+			
+			$this->db->where("model_id", $model_id);
+			$this->db->update("hl_models", array("picture_id" => $picture_id));
+		}
+	}
 }
 

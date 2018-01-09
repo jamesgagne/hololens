@@ -34,19 +34,58 @@
 			{
 				$space_id = $_GET["space_id"];
 				
-				$this->TPL["CurrentWorkspace"] = $_GET["space_id"];
 				$this->TPL["Models"] = $this->GetModelsForWorkspace($space_id);
 				$this->TPL["SpaceID"] = $space_id;
+			}
+			
+			$this->GetCurrentWorkspace();
+			
+			$this->template->show("workspace", $this->TPL);
+		}
+		
+		private function GetCurrentWorkspace()
+		{
+			if($_GET["space_id"] != "")
+			{
+				$this->TPL["CurrentWorkspace"] = $_GET["space_id"];
 			}
 			else
 			{
 				$space_id = $this->TPL["Workspaces"][0]["space_id"];
 				
-				$this->TPL["Models"] = $this->GetModelsForWorkspace($space_id);
-				$this->TPL["SpaceID"] = $space_id;
+				if($space_id != null)
+				{
+					$this->TPL["Models"] = $this->GetModelsForWorkspace($space_id);
+					$this->TPL["SpaceID"] = $space_id;
+					
+					$this->TPL["CurrentWorkspace"] = $space_id;
+				}
 			}
+		}
+		
+		public function AddWorkspace()
+		{
+			$space_id = $_POST["workspace_id"];
+			$name = $_POST["workspace"];
+			$description = $_POST["description"];
 			
-			$this->template->show("workspace", $this->TPL);
+			$userid = $this->db->get_where("hl_users", array("email" => $this->userauthor->GetEmail()))->result_array()[0]["user_id"];
+			
+			$this->db->insert("hl_spaces", array("name" => $name, "description" => $description, "user_id" => $userid));
+			
+			$workpage = base_url() . "index.php/Workspace";
+			$this->userauthor->Redirect($workpage);
+		}
+		
+		public function DeleteWorkspace()
+		{
+			$space_id = $_POST["workspace_id"];
+			
+			$this->db->where("space_id", $space_id);
+			$this->db->delete("hl_spaces");
+			
+			$workpage = base_url() . "index.php/Workspace";
+			$this->userauthor->Redirect($workpage);
 		}
 		
 		public function RemoveModel()

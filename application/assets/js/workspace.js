@@ -1,4 +1,14 @@
 $(document).ready(function() {
+	
+	var currentSpace = $("#space").val();
+	
+	if(currentSpace == null) {
+		$("#deleteWorkspaceButton").prop("disabled", true);
+	}
+	else {
+		$("#deleteWorkspaceButton").prop("disabled", false);
+	}
+	
 	var base_url = $("#base_url").val();
 	
 	$("#removeOK").click(function() {
@@ -10,7 +20,7 @@ $(document).ready(function() {
 	});
 	
 	$('.fileCheckBox').change(function() {
-		var parent = $(this).parent();
+		var parent = $(this);
 		
 		$(parent).toggleClass("highlight");
 		
