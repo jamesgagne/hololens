@@ -1,4 +1,6 @@
 
+<title>Upload</title>
+
  <div class="row" >
   <div class="col-lg-12">     
  <style>
@@ -24,7 +26,7 @@ fieldset{
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<?= ini_get("upload_max_filesize");?>
+
 
 <label id="drop_zone" ondrop="drag_drop(event)" ondragover="return false">
 	<div id="makeSelection">Drag And Drop or Click Here to Add Files<br />
@@ -47,6 +49,7 @@ fieldset{
   var uploadedModels = [];
 function drag_drop(event) {
     event.preventDefault();
+    var counter = 0;
     jQuery.each(event.dataTransfer.files,function(element){
         if (getType(event.dataTransfer.files[element].name)=="fbx"){
 
@@ -79,7 +82,7 @@ function changedFileUpload(e){
   var control = document.getElementById("your-files");
    jQuery.each(control.files,function(element){
     
-    if (getType(control.files[element].name)=="fbx"){
+    if (getType(control.files[element].name)=="fbx"||getType(control.files[element].name)=="FBX"){
    var colorSelect = "Select a Color: <select class='form-control' style='width: 25%;' name='colors' id='"+fileCount+"color' style='width:10%;'><option value='' disabled selected>Select</option>"; 
 
    <?php foreach ($colors as $key => $value) :?>
@@ -106,6 +109,7 @@ function changedFileUpload(e){
 
 $("#formButton").click(function(event){
     event.preventDefault();
+    var counter = 0;
    jQuery.each(uploadedModels,function(element){
     var form_data = new FormData();
     form_data.append("model",uploadedModels[element]);
@@ -132,6 +136,7 @@ console.log($('#'+element+'description').val());
                     file_data = $('#'+element+"thumbFile").prop('files')[0];
                     form_data.append('model_id', newID);
                     form_data.append("thumb",file_data);
+					
                     $.ajax({
                         url: 'Upload/addThumb', // point to server-side PHP script 
                         dataType: 'text',  // what to expect back from the PHP script, if anything
@@ -142,8 +147,12 @@ console.log($('#'+element+'description').val());
                         type: 'post',
                         success: function (data)
                         {
+                        	counter++;
+                        	if (uploadedModels.length==counter){
 							alert("Upload successful!");
                             console.log(data);
+                            window.location.href = "<?=base_url()?>index.php/Upload"
+                        	}
                         }
                       });
 
