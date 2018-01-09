@@ -25,8 +25,10 @@
 												
 											</select>
 											
-											<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Remove From Workspace" data-toggle="modal" data-target="#removeModal" id="removeButton" />
-											<input disabled style="margin-right: 15px;" type="button" class="btn btn-primary pull-right" value="Download" id="downloadButton" />
+											<br>
+											
+											<input style="margin-right: 10px;" type="button" class="btn btn-primary pull-right" value="Add Workspace" data-toggle="modal" data-target="#addWorkspaceModal" id="addWorkspaceButton" />	
+											<input style="margin-right: 10px;" type="button" class="btn btn-primary pull-right" value="Delete Workspace" data-toggle="modal" data-target="#deleteWorkspaceModal" id="deleteWorkspaceButton" />
 											
 											</div>
 											
@@ -39,12 +41,12 @@
 										
 											<div class="col-xs-12">
 										
-												<input style="margin-right: 15px;" type="button" class="btn btn-primary" value="Add Workspace" data-toggle="modal" data-target="#addWorkspaceModal" id="addWorkspaceButton" />	
-												<input style="margin-right: 15px;" type="button" class="btn btn-primary" value="Delete Workspace" data-toggle="modal" data-target="#deleteWorkspaceModal" id="deleteWorkspaceButton" />
-										
-												</div>
+												<input disabled style="margin-right: 10px;" type="button" class="btn btn-primary pull-left" value="Remove From Workspace" data-toggle="modal" data-target="#removeModal" id="removeButton" />
+												<input disabled style="margin-right: 10px;" type="button" class="btn btn-primary pull-left" value="Download" id="downloadButton" />
 										
 											</div>
+										
+										</div>
 										
 										</form>
 									</div>
